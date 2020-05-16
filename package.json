@@ -1,0 +1,29 @@
+{
+  "name": "swipe-skotch",
+  "version": "1.0.0",
+  "description": "Video chat dating app",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/app.js",
+    "watch": "tsc --watch && nodemon dist/src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomcorey26/swipe-skotch.git"
+  },
+  "author": "Tom Corey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomcorey26/swipe-skotch/issues"
+  },
+  "homepage": "https://github.com/tomcorey26/swipe-skotch#readme",
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
