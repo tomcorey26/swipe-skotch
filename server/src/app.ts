@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import ioserver, { Socket } from 'socket.io';
+import ioserver from 'socket.io';
 
 const app = express();
 const server = require('http').Server(app);
@@ -17,21 +17,25 @@ let interval: any;
 
 io.on('connection', (socket) => {
   console.log('New client connected');
-  if (interval) {
-    clearInterval(interval);
-  }
-  interval = setInterval(() => getApiAndEmit(socket), 1000);
+
+  socket.on('new message', (data) => {
+    // we tell the client to execute 'new message'
+    socket.broadcast.emit('new message', {
+      message: data,
+    });
+  });
+
   socket.on('disconnect', () => {
     console.log('Client disconnected');
     clearInterval(interval);
   });
 });
 
-const getApiAndEmit = (socket: Socket) => {
-  const response = new Date();
-  // Emitting a new message. Will be consumed by the client
-  socket.emit('FromAPI', response);
-};
+// const getApiAndEmit = (socket: Socket) => {
+//   const response = new Date();
+//   // Emitting a new message. Will be consumed by the client
+//   socket.emit('FromAPI', response);
+// };
 
 app.get('/', (_, res) => {
   res.send({ data: 'The sedulous hyena ate the antelope!' });
