@@ -1,7 +1,10 @@
 import express from 'express';
 import cors from 'cors';
+import ioserver, { Socket } from 'socket.io';
 
 const app = express();
+const server = require('http').Server(app);
+const io = ioserver(server);
 
 app.use(
   cors({
@@ -9,6 +12,26 @@ app.use(
     credentials: true,
   })
 );
+
+let interval: any;
+
+io.on('connection', (socket) => {
+  console.log('New client connected');
+  if (interval) {
+    clearInterval(interval);
+  }
+  interval = setInterval(() => getApiAndEmit(socket), 1000);
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+    clearInterval(interval);
+  });
+});
+
+const getApiAndEmit = (socket: Socket) => {
+  const response = new Date();
+  // Emitting a new message. Will be consumed by the client
+  socket.emit('FromAPI', response);
+};
 
 app.get('/', (_, res) => {
   res.send({ data: 'The sedulous hyena ate the antelope!' });
@@ -20,9 +43,6 @@ app.get('/hurr', (_, res) => {
 });
 
 const port = 4000;
-app.listen(port, (err) => {
-  if (err) {
-    return console.error(err);
-  }
+server.listen(port, () => {
   return console.log(`server is listening on ${port}`);
 });
