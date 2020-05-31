@@ -2,3 +2,9 @@ Figure out how to work with video camera api
 find out how to make a socket connection between two users
 data base schema
 rules of app
+
+
+Search phase
+User must take picture from their facecam before searching
+user must confirm that is the image they want
+user can then search for other users to connect with
