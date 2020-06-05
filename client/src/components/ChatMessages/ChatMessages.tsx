@@ -2,10 +2,10 @@ import React from 'react';
 
 interface ChatMessagesProps {}
 
-export const ChatMessages: React.FC<ChatMessagesProps> = ({}) => {
+export const ChatMessages: React.FC<ChatMessagesProps> = ({ children }) => {
   return (
     <div>
-      <h1>ChatMessages</h1>
+      <ul>{children}</ul>
     </div>
   );
 };

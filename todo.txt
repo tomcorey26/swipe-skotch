@@ -3,6 +3,13 @@ find out how to make a socket connection between two users
 data base schema
 rules of app
 
+Back log
+*********
+As a user I need video chat so that I can talk to the other user
+as a user I need message chat so i can talk to the other user
+As a user I need an match interface so i can talk to the other user after we video chat
+
+
 
 Search phase
 User must take picture from their facecam before searching
