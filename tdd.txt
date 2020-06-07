@@ -1,0 +1,7 @@
+UI tests - Slower more integration
+service tests - meduim
+units tests - faster more isloation 
+
+start from smallest and build inside out
+or
+start from biggest and build outside in
