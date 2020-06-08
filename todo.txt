@@ -24,6 +24,7 @@ Docker for management
 
 Problems
 ********
+how to find within radius
 How tf do I effectivley write tests lol
 How would the whole process of searching and find another user to connect with work?
 Need to set up authentication
