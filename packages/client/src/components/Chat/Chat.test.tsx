@@ -6,7 +6,7 @@ import { Chat } from './Chat';
 // for example you could make a describe for authentication
 // and then have more specific tests for auth inside of it
 describe('Chat', () => {
-  test('renders learn react link', async () => {
+  test('Chat message sent', async () => {
     const { getByTestId, getByText } = render(<Chat />);
 
     const submitButton = getByTestId('submit-button');

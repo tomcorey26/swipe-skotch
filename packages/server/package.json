@@ -25,10 +25,12 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
+    "@skotch/common": "1.0.0",
     "@types/cors": "^2.8.6",
     "@types/socket.io": "^2.1.8",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "moment": "^2.26.0",
     "socket.io": "^2.3.0"
   }
 }

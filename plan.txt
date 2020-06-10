@@ -1,0 +1,53 @@
+Figure out how to work with video camera api
+find out how to make a socket connection between two users
+data base schema
+rules of app
+
+Refection
+*********
+Planning stuff out is mad helpful it gives sense of direction
+makes it so you can focus on one thing at a time
+Thoughts are kind of scattered when trying to just do stuff off the dome
+Combats procastiantion because I dont have to use will power to figure out what to do
+I just look at what I wrote down and I do it
+
+Stack
+*****
+React
+React testing library
+Socket io
+Node
+Express
+PostgresSQL
+Amazon for server deployment / s3 for images
+Docker for management
+
+Problems
+********
+how to find within radius
+How tf do I effectivley write tests lol
+How would the whole process of searching and find another user to connect with work?
+Need to set up authentication
+Need to learn how to create express api
+need to learn how to work with node postgres
+If screenshot before chat is implemented, how would we do that?
+How are private "rooms" going to be set up for video chat settings
+How would you connect users with similar preferences
+
+Back log
+*********
+As a user i need instructions to figure out how the app works
+As a user I can log in and have a personalized account so that i can make matches
+As a user I can store my preferences so that i can match with people that I want to 
+As a user I need video a video chat interface so that I can talk to the other user
+As a user I can match with other users, and be able to message them after
+as a user I need message chat so i can talk to the other user
+As a user I need a match interface so i can talk to the other user after we video chat
+As a user I can request to video chat my matches again so that I can communicate with them more 
+
+
+
+Search phase
+User must take picture from their facecam before searching
+user must confirm that is the image they want
+user can then search for other users to connect with

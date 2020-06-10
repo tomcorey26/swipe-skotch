@@ -5,16 +5,14 @@ import socketIOClient from 'socket.io-client';
 import './Chat.scss';
 const ENDPOINT = 'http://localhost:4000';
 
+const socket = socketIOClient(ENDPOINT);
 interface ChatProps {}
-
 export const Chat: React.FC<ChatProps> = ({}) => {
   const [text, setText] = useState('');
-  const [response, setResponse] = useState('');
   const [messages, setMessages] = useState<string[]>([]);
-  const socket = socketIOClient(ENDPOINT);
 
   useEffect(() => {
-    socket.on('new message', (data: { message: string }) => {
+    socket.on('message', (data: { message: string }) => {
       console.log(data);
       setMessages((m) => [...m, data.message]);
     });
@@ -22,7 +20,7 @@ export const Chat: React.FC<ChatProps> = ({}) => {
 
   const emitMessage = (e: SyntheticEvent) => {
     e.preventDefault();
-    socket.emit('new message', text);
+    socket.emit('message', text);
     setText('');
   };
   return (

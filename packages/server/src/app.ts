@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import ioserver from 'socket.io';
+import ioserver, { Socket } from 'socket.io';
 
 const app = express();
-const server = require('http').Server(app);
+const http = require('http');
+const server = http.Server(app);
 const io = ioserver(server);
 
 app.use(
@@ -13,21 +14,23 @@ app.use(
   })
 );
 
-let interval: any;
+io.on('connection', (socket: Socket) => {
+  socket.emit('message', { message: 'welcome to tomcord' });
 
-io.on('connection', (socket) => {
-  console.log('New client connected');
+  //socket.broadcast: emits to all clients except for the client connecting
+  socket.broadcast.emit('message', { message: 'a user has joined the chat' });
 
-  socket.on('new message', (data) => {
-    // we tell the client to execute 'new message'
-    socket.broadcast.emit('new message', {
+  socket.on('message', (data) => {
+    //socket: emits to the single client that is connecting
+
+    //io: broadcasts to everybody
+    io.emit('message', {
       message: data,
     });
   });
 
   socket.on('disconnect', () => {
-    console.log('Client disconnected');
-    clearInterval(interval);
+    io.emit('message', { message: 'user disconnected' });
   });
 });
 

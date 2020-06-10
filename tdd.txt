@@ -5,3 +5,26 @@ units tests - faster more isloation
 start from smallest and build inside out
 or
 start from biggest and build outside in
+
+
+TDD makes u see from the perspective of the user
+You design what you want to do before you do it, makes you think about stuff
+Create tests that fail, make them pass, and then decide to refactor to more closely
+fit SOLID principles or DRY (Do not reapeat your self)
+
+3 laws of TDD
+*************
+1.) you must write a failing test before you write any production code
+2.) You must not write more of a test than is sufficent to fail, or fail to comple
+3.) You must not write more procution code than is sufficeient to make the currently failing test pass
+
+Z ero
+O one
+M many
+B boundary behavior
+I interfaces
+E exercise exceptions
+
+Best practices is to have one assertion each for each test case (single responsibility principle) 
+if you have more than one just write another test case
+when your writing tests your really thinking about how your going to design the application 
