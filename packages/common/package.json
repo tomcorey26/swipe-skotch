@@ -1,6 +1,14 @@
 {
   "name": "@skotch/common",
   "version": "1.0.0",
-  "main": "index.ts",
-  "license": "MIT"
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.9.5"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch"
+  }
 }
