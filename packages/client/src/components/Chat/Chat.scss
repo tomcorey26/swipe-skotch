@@ -1,7 +1,35 @@
-.chat {
+.videochat-interface {
+  box-sizing: border-box;
+  height: 100vh;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 3fr 5fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
   background: blue;
-  margin: 10px auto 10px auto;
-  max-width: 800px;
-  display: flex;
-  justify-content: space-around;
+  grid-template-areas:
+    'video message'
+    'video disconnect';
+
+  .videos {
+    background: red;
+    grid-area: video;
+    display: flex;
+    flex-direction: column;
+    .video-frame {
+      height: 50%;
+      width: 100%;
+      background: purple;
+    }
+  }
+
+  .message-interface {
+    grid-area: message;
+    background: forestgreen;
+  }
+
+  .disconnect {
+    grid-area: disconnect;
+    background: fuchsia;
+  }
 }
