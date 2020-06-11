@@ -24,28 +24,8 @@ export const Chat: React.FC<ChatProps> = ({}) => {
     setText('');
   };
   return (
-    <>
-      <div className="center chat">
-        <ChatMessages>
-          {messages.map((m, i) => (
-            <li key={i}>{m}</li>
-          ))}
-        </ChatMessages>
-        <ChatLog />
-      </div>
-      <div className="center">
-        <form onSubmit={emitMessage}>
-          <input
-            type="text"
-            value={text}
-            onChange={(event) => setText(event.target.value)}
-            data-testid="chat-input"
-          />
-          <button onClick={emitMessage} data-testid="submit-button">
-            submit
-          </button>
-        </form>
-      </div>
-    </>
+    <div className="container">
+      <div className="center chat">foo</div>
+    </div>
   );
 };

@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import ioserver, { Socket } from 'socket.io';
-import { foo } from '@skotch/common';
 
 const app = express();
 const http = require('http');
@@ -14,7 +13,6 @@ app.use(
     credentials: true,
   })
 );
-console.log(foo(2));
 
 io.on('connection', (socket: Socket) => {
   socket.emit('message', { message: 'welcome to tomcord' });

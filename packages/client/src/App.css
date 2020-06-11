@@ -1,4 +1,7 @@
-.center {
+.app {
+  background: blue;
+}
+.container {
   display: flex;
   justify-content: center;
 }

@@ -1,4 +1,4 @@
-Make into yarn workspace so you can share types and functions
+x Make into yarn workspace so you can share types and functions
 Learn socket io 
 learn react testing library
 learn resful api/node/express
