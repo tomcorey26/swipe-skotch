@@ -1,3 +1,3 @@
 #!/bin/bash
 
-concurrently "cd server && npm start" "cd client && npm start"
+concurrently "cd ./packages/server && npm start" "cd ./packages/client && npm start"
