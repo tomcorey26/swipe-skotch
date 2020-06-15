@@ -24,8 +24,14 @@ export const Chat: React.FC<ChatProps> = ({}) => {
     setText('');
   };
   return (
-    <div className="container">
-      <div className="center chat">foo</div>
+    <div className="videochat-interface">
+      <div className="videos">
+        <div className="video-frame">vid frame 1</div>
+        <div className="video-frame">vid frame 2</div>
+      </div>
+      <ChatMessages />
+
+      <div className="disconnect">disconnect</div>
     </div>
   );
 };

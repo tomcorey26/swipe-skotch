@@ -1,0 +1,47 @@
+ul {
+  text-decoration: none;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  padding-inline-start: 0;
+  overflow: auto;
+
+  li {
+    max-width: 30%;
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px;
+    border-radius: 15px;
+    text-align: left;
+  }
+
+  .from-me {
+    background: lightblue;
+    color: white;
+    align-self: flex-end;
+  }
+
+  .to-me {
+    background: hsl(220, 12%, 95%);
+    color: black;
+    align-self: flex-start;
+  }
+}
+
+.chat-input {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 8px;
+  #vid-chat-input {
+    width: 70%;
+    background-color: var(--grey);
+    &:focus {
+      outline: none;
+    }
+  }
+}
