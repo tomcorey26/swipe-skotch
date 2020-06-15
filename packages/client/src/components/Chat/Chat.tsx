@@ -29,11 +29,7 @@ export const Chat: React.FC<ChatProps> = ({}) => {
         <div className="video-frame">vid frame 1</div>
         <div className="video-frame">vid frame 2</div>
       </div>
-
-      <div className="message-interface">
-        <div className="chat-log">Log</div>
-        <div className="chat-input">input</div>
-      </div>
+      <ChatMessages />
 
       <div className="disconnect">disconnect</div>
     </div>

@@ -7,26 +7,29 @@
   grid-template-columns: 3fr 5fr;
   grid-template-rows: 1fr 1fr;
   gap: 10px;
-  background: blue;
   grid-template-areas:
     'video message'
     'video disconnect';
 
   .videos {
-    background: red;
     grid-area: video;
     display: flex;
     flex-direction: column;
     .video-frame {
       height: 50%;
       width: 100%;
-      background: purple;
+      border: 1px solid black;
     }
   }
 
   .message-interface {
     grid-area: message;
-    background: forestgreen;
+    padding: 1rem;
+    position: relative;
+    overflow: auto;
+    background-color: var(--white);
+    border-radius: 24px;
+    box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
   }
 
   .disconnect {
