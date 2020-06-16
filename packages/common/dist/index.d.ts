@@ -1,4 +1,4 @@
-import { message } from './Types/message';
+import { userMessage } from './Types';
 export declare const foo: (poo: number) => void;
-export declare const formatMessage: (username: string, message: string) => message;
-export { message };
+export declare const formatMessage: (username: string, message: string) => userMessage;
+export { userMessage };
