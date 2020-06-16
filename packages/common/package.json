@@ -12,6 +12,7 @@
     "build:watch": "tsc --watch"
   },
   "dependencies": {
-    "@types/node": "^14.0.13"
+    "@types/node": "^14.0.13",
+    "moment": "^2.26.0"
   }
 }
