@@ -1,4 +1,4 @@
-.videochat-interface {
+.chat-interface {
   // border box makes it so the padding and margin are included with width and height
   box-sizing: border-box;
   height: 100vh;
@@ -10,17 +10,6 @@
   grid-template-areas:
     'video message'
     'video disconnect';
-
-  .videos {
-    grid-area: video;
-    display: flex;
-    flex-direction: column;
-    .video-frame {
-      height: 50%;
-      width: 100%;
-      border: 1px solid black;
-    }
-  }
 
   .message-interface {
     grid-area: message;
