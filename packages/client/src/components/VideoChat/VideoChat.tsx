@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import Peer from 'simple-peer';
 import './VideoChat.scss';
 
 interface VideoChatProps {
@@ -38,7 +39,13 @@ export const VideoChat: React.FC<VideoChatProps> = ({
     // socket.current.on('hey', (data: any) => {});
   }, []);
 
-  function callPeer(id: string) {}
+  function callPeer(id: string) {
+    const peer = new Peer({
+      initiator: true,
+      trickle: false,
+      stream: stream,
+    });
+  }
 
   function acceptCall() {}
 
