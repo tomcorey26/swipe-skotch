@@ -23,6 +23,7 @@ const initTextChat = (socket: Socket, io: any) => {
 const initVideoChat = (socket: Socket, io: any) => {
   //video chat start
   socket.on('callUser', (data) => {
+    //io to lets you only emit something to the user with the passed socket id
     io.to(data.userToCall).emit('hey', {
       signal: data.signalData,
       from: data.from,
@@ -30,6 +31,7 @@ const initVideoChat = (socket: Socket, io: any) => {
   });
 
   socket.on('acceptCall', (data) => {
+    console.log('call accepted server');
     io.to(data.to).emit('callAccepted', data.signal);
   });
 };
@@ -40,7 +42,7 @@ export const startChatConnection = (io: any) => {
       users[socket.id] = socket.id;
     }
     socket.emit('yourId', socket.id);
-    socket.broadcast.emit('allUsers', users);
+    io.emit('allUsers', users);
 
     // text chat logic
     initTextChat(socket, io);

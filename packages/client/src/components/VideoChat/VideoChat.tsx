@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Peer from 'simple-peer';
+import Peer, { SignalData } from 'simple-peer';
 import './VideoChat.scss';
 
 interface VideoChatProps {
@@ -16,7 +16,7 @@ export const VideoChat: React.FC<VideoChatProps> = ({
   const [stream, setStream] = useState<MediaStream>();
   const [receivingCall, setReceivingCall] = useState(false);
   const [caller, setCaller] = useState('');
-  const [callerSignal, setCallerSignal] = useState();
+  const [callerSignal, setCallerSignal] = useState<string | SignalData>();
   const [callAccepted, setCallAccepted] = useState(false);
 
   const userVideo = useRef<any>();
@@ -36,7 +36,13 @@ export const VideoChat: React.FC<VideoChatProps> = ({
     }
 
     requestCameraAccess();
-    // socket.current.on('hey', (data: any) => {});
+
+    socket.on('hey', (data: any) => {
+      setReceivingCall(true);
+      setCaller(data.from);
+      setCallerSignal(data.signal);
+      console.log('data form hey', data);
+    });
   }, []);
 
   function callPeer(id: string) {
@@ -45,9 +51,65 @@ export const VideoChat: React.FC<VideoChatProps> = ({
       trickle: false,
       stream: stream,
     });
+
+    // one peer sends out signal to other
+    // other accepts
+    // it will signal its own data back to caller
+    // its like a handshake
+    peer.on('signal', (data) => {
+      //emits signal to other user
+      // who can then accept the data and create a handshake
+      socket.emit('callUser', {
+        userToCall: id,
+        signalData: data,
+        from: yourID,
+      });
+    });
+
+    //the stream we get back from the user who accepted our handshake
+    peer.on('stream', (stream) => {
+      //checking to see if video element is rendered
+      if (partnerVideo.current) {
+        partnerVideo.current.srcObject = stream;
+      }
+    });
+
+    socket.on('callAccepted', (signal: any) => {
+      console.log('callaccepted');
+      setCallAccepted(true);
+      peer.signal(signal);
+    });
   }
 
-  function acceptCall() {}
+  function acceptCall() {
+    setCallAccepted(true);
+    const peer = new Peer({
+      initiator: false,
+      trickle: false,
+      stream: stream,
+    });
+
+    //every time you create a peer object it "signals"
+    // this is a listener for that event
+    peer.on('signal', (signal) => {
+      socket.emit('acceptCall', { signal, to: caller });
+    });
+
+    //this listens for the peer.signal() event below
+    peer.on('stream', (stream) => {
+      if (partnerVideo.current) {
+        partnerVideo.current.srcObject = stream;
+      }
+    });
+
+    //this passes the signal of the caller to your peer
+    // this is the way that a successful handshake is done
+    // the end goal of all of this was to make sure each peer has each other signals
+    // socket io is not even required, but it makes it easier to do the handshake process
+    if (callerSignal) {
+      peer.signal(callerSignal);
+    }
+  }
 
   let UserVideo;
   if (stream) {
@@ -61,7 +123,7 @@ export const VideoChat: React.FC<VideoChatProps> = ({
 
   let incomingCall;
   if (receivingCall) {
-    return (
+    incomingCall = (
       <div>
         <h1>{caller} is calling you</h1>
         <button onClick={acceptCall}>Accept</button>
@@ -82,15 +144,12 @@ export const VideoChat: React.FC<VideoChatProps> = ({
           }
 
           return (
-            <button
-              key={i}
-              style={{ backgroundColor: 'blue' }}
-              onClick={() => callPeer(id)}
-            >
+            <button key={i} onClick={() => callPeer(id)}>
               Call {id}
             </button>
           );
         })}
+        {incomingCall}
       </div>
     </>
   );

@@ -14,7 +14,6 @@ export const Chat: React.FC<ChatProps> = ({}) => {
 
   useEffect(() => {
     socket.on('allUsers', (data: any) => {
-      console.log(data);
       setUsers(data);
     });
 
