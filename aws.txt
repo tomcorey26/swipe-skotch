@@ -1,0 +1,10 @@
+Aws Elastic beanstalk
+*********************
+Manages Underlying infastructure
+e.g EC2, OS, web server, language/framework for us
+
+Dyn
+
+s3
+****
+Image hosting?
