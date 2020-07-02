@@ -1,0 +1,12 @@
+# whenever you build docker it takes the whole enviorment with it to pick the files you want
+# by whitelisting it like below it speeds things up
+# ignore everything
+*
+
+# white list the files you want
+
+!./package.json  
+!./packages/server/package.json
+!./packages/common/package.json
+!./packages/server/dist/ 
+!./packages/common/dist/ 
