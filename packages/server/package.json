@@ -1,5 +1,5 @@
 {
-  "name": "swipe-skotch",
+  "name": "@skotch/server",
   "version": "1.0.0",
   "description": "Video chat dating app",
   "main": "index.js",

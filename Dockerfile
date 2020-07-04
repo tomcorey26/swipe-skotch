@@ -19,6 +19,5 @@ ENV NODE_ENV production
 
 EXPOSE 4000 
 
-RUN ls
 
 CMD [ "node", "dist/app.js" ]
