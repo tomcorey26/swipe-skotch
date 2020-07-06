@@ -10,7 +10,10 @@ const io = ioserver(server);
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? 'urlhere'
+        : 'http://localhost:3000',
     credentials: true,
   })
 );
