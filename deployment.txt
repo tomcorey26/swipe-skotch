@@ -1,0 +1,9 @@
+Change all localhosts to process.envs
+build docker image "be wary of you slashes"
+push to docker hub
+create dokku digial ocean droplet
+ssh into it
+create dokku app
+pull docker container from hub "docker pull tomcorey26/swipe-skotch:1.0.0"
+tag dokku app as this
+dokku tags:deploy swipe-skotch latest

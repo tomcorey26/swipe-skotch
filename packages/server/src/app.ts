@@ -14,7 +14,6 @@ app.use(
     credentials: true,
   })
 );
-
 startChatConnection(io);
 
 app.get('/', (_, res) => {
