@@ -7,6 +7,7 @@ const app = express();
 const http = require('http');
 const server = http.Server(app);
 const io = ioserver(server);
+
 app.use(
   cors({
     origin:
@@ -16,13 +17,14 @@ app.use(
     credentials: true,
   })
 );
+
 startChatConnection(io);
 
 app.get('/', (_, res) => {
-  res.send({ data: 'foo bar' });
+  res.send({ data: 'ugh' });
 });
 
-//test
+//test otunga bunga
 app.get('/hurr', (_, res) => {
   res.send('durr');
 });
