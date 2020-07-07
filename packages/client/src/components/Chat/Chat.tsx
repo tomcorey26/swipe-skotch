@@ -3,9 +3,8 @@ import { ChatMessages } from '../ChatMessages/ChatMessages';
 import './Chat.scss';
 import socketIOClient from 'socket.io-client';
 import { VideoChat } from '../VideoChat/VideoChat';
-const ENDPOINT = 'http://localhost:4000';
 
-const socket = socketIOClient(ENDPOINT);
+const socket = socketIOClient(process.env.REACT_APP_SERVER_URL as string);
 interface ChatProps {}
 export const Chat: React.FC<ChatProps> = ({}) => {
   // can use username instead of this
