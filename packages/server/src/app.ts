@@ -7,17 +7,19 @@ const app = express();
 const http = require('http');
 const server = http.Server(app);
 const io = ioserver(server);
-
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? process.env.FRONTEND_URL
+        : 'http://localhost:3000',
     credentials: true,
   })
 );
 startChatConnection(io);
 
 app.get('/', (_, res) => {
-  res.send({ data: 'The sedulous hyena ate the antelope!' });
+  res.send({ data: 'foo bar' });
 });
 
 //test

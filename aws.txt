@@ -1,0 +1,14 @@
+Aws Elastic beanstalk
+*********************
+Manages Underlying infastructure
+e.g EC2, OS, web server, language/framework for us
+
+Dyn
+
+vim
+****
+yss is sorround entire line
+ysiw is sorround word
+ctrl+v is vissual block where you can visual by column
+c lets you change the word
+

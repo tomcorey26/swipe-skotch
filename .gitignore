@@ -1,2 +1,5 @@
 node_modules
 connect.sh
+deployment.txt
+.env*
+.netlify
