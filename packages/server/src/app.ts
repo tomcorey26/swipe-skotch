@@ -24,7 +24,6 @@ app.get('/', (_, res) => {
   res.send({ data: 'ugh' });
 });
 
-//test otunga bunga
 app.get('/hurr', (_, res) => {
   res.send('durr');
 });

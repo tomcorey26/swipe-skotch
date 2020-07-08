@@ -26,7 +26,7 @@ export const Chat: React.FC<ChatProps> = ({}) => {
       <h1>Your socket Id: {yourID}</h1>
       <div className="chat-interface">
         <VideoChat socket={socket} users={users} yourID={yourID} />
-        <ChatMessages socket={socket} />
+        <ChatMessages socket={socket} yourID={yourID} />
       </div>
     </>
   );

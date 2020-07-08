@@ -1,4 +1,4 @@
 #!/bin/bash
 
-# "cd ./packages/server && npm start"
-concurrently  "cd ./packages/client && npm start" "cd ./packages/common && npm run build:watch"
+
+concurrently "cd ./packages/server && npm start" "cd ./packages/client && npm start" "cd ./packages/common && npm run build:watch"
