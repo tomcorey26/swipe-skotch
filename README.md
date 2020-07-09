@@ -1,5 +1,9 @@
 # todo
-https for server
+[x] https for server
+[x] video chat + text chat
+[x] deployment pipeline
+[] authentication
+[] search queue
 
 # swipe-skotch
 Swipe skotch is a video chat dating app that gets to the point
