@@ -24,7 +24,7 @@ app.get('/', (_, res) => {
   res.send({ data: 'ugh' });
 });
 
-app.get('/hurr', (_, res) => {
+app.get('/login', (_, res) => {
   res.send('durr');
 });
 
