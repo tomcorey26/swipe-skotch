@@ -20,8 +20,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "baseUrl": "."
+    "skipLibCheck": true
+    // "baseUrl": "."
   },
   "exclude": ["**/node_modules"],
   "include": ["./src/**/*.tsx", "./src/**/*.ts"]

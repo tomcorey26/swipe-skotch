@@ -1,4 +1,5 @@
 import { SessionOptions } from 'express-session';
+require('dotenv').config();
 
 const TWO_HOURS = 1000 * 60 * 60 * 2;
 const {

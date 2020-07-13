@@ -1,4 +1,5 @@
 import { RedisOptions } from 'ioredis';
+require('dotenv').config();
 
 const {
   REDIS_PORT = 6379,

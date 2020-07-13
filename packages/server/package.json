@@ -4,8 +4,12 @@
   "description": "Video chat dating app",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec ts-node src/app.ts",
+    "start": "nodemon --exec ts-node src/index.ts",
     "build": "tsc",
+    "up": "docker-compose up -d",
+    "postup": "npm start",
+    "stop": "docker-compose stop",
+    "down": "docker-compose down",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
