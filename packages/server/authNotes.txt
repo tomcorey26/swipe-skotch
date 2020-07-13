@@ -1,0 +1,6 @@
+You need a session store 
+
+express-session comes with what is called a memory store
+which is only useful for development and cant be used in production
+
+we use a redis store

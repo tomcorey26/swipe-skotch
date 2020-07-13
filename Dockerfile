@@ -11,6 +11,7 @@ COPY ./packages/common/package.json ./packages/common/
 RUN yarn install --production
 
 COPY ./packages/server/dist ./packages/server/dist
+COPY ./packages/server/.env ./packages/server/.env
 COPY ./packages/common/dist ./packages/common/dist
 
 WORKDIR ./packages/server

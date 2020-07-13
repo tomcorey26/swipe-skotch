@@ -1,0 +1,13 @@
+Had to put typeormconfig.json in the root directory because
+
+Typeorm creates a connection pool when you connect
+A connection pool is a cache of db connections that can be refused for future requests
+
+This makes it so a db connection does not have to be made for each user
+rather the same conenciton can be reused
+
+if all connections are being used it adds a new one to the pool
+
+saves resources, cuts down on the time a user must wait to 
+establish db connection
+
