@@ -5,6 +5,7 @@ import session, { Store } from 'express-session';
 import cors from 'cors';
 import { User } from '../entity/User';
 import { IN_PROD, SESSION_OPTIONS } from '../config';
+import { register } from './routes';
 // set up session
 // can make it so cookies can not be accesable client side through javascript
 // this is the default behavior for session
@@ -15,6 +16,9 @@ export const createApp = (store: Store) => {
   const http = require('http');
   const server = http.Server(app);
   const io = ioserver(server);
+
+  // this middleware parses json from requests
+  app.use(express.json());
 
   //set up cors
   app.use(
@@ -32,9 +36,7 @@ export const createApp = (store: Store) => {
     res.send({ data: 'ugh' });
   });
 
-  app.get('/login', (_, res: Response) => {
-    res.send('durr');
-  });
+  app.use(register);
 
   app.get('/users', async function (_: Request, res: Response) {
     const users = await User.find();

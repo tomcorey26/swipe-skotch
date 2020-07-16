@@ -6,8 +6,17 @@ export class User extends BaseEntity {
   id: number;
 
   @Column()
-  firstName: string;
+  email: string;
 
   @Column()
-  lastName: string;
+  name: string;
+
+  @Column()
+  password: string;
+
+  @Column('timestamp', {
+    name: 'date',
+    default: (): string => 'LOCALTIMESTAMP',
+  })
+  date: Date;
 }

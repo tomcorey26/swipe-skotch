@@ -2,3 +2,7 @@ x Make into yarn workspace so you can share types and functions
 Learn socket io 
 learn react testing library
 learn resful api/node/express
+
+curls
+
+curl -X POST localhost:4000/register -H 'Content-Type: application/json' -d '{"email":"tom@gmail.com", "name":"Tom","password":"test1234","passwordConfirmation":"test1234"}'
