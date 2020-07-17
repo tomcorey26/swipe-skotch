@@ -14,7 +14,7 @@ export const SESSION_OPTIONS: SessionOptions = {
   secret: SESS_SECRET as string,
   name: SESS_NAME,
   cookie: {
-    domain: FRONTEND_URL,
+    domain: NODE_ENV === 'production' ? FRONTEND_URL : 'http://localhost:3000',
     maxAge: Number(SESS_LIFETIME),
     //toggle wether or not cookie can be sent from the same domain (in this case its not)
     sameSite: false,

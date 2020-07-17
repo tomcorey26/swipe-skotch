@@ -1,29 +1,35 @@
 import { Router, Response, Request } from 'express';
-import { registerSchema } from '../../validation/auth';
+import { registerSchema, validate } from '../../validation';
 import { User } from '../../entity/User';
+import { logIn } from '../../auth';
+import { guest, catchAsync } from '../middleware';
+import { BadRequest } from '../../errors';
 
 const router = Router();
 
-router.post('/register', async (req: Request, res: Response) => {
-  try {
-    await registerSchema.validateAsync(req.body, { abortEarly: false });
-  } catch (err) {
-    res.send({ error: err });
-  }
-  const { email, password, name } = req.body;
+// the guest is a middle ware we pass in to check if the user
+// is logged in already
+// under the hood express passes guest its req,res,next e.g
+router.post(
+  '/register',
+  guest,
+  catchAsync(async (req: Request, res: Response) => {
+    await validate(registerSchema, req.body);
 
-  const found = await User.findOne({ email });
+    const { email, password, name } = req.body;
 
-  if (found) {
-    throw new Error('Invalid Email');
-  }
+    const found = await User.findOne({ email });
 
-  try {
-    await User.create({ email, password, name }).save();
-  } catch (err) {
-    res.send({ error: err });
-  }
-  res.send({ message: 'OK' });
-});
+    if (found) {
+      throw new BadRequest('Invalid Email');
+    }
+
+    const user = await User.create({ email, password, name }).save();
+
+    logIn(req, user.id);
+
+    res.json({ message: 'OK' });
+  })
+);
 
 export default router;

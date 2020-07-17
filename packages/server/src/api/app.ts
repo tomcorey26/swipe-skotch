@@ -6,6 +6,7 @@ import cors from 'cors';
 import { User } from '../entity/User';
 import { IN_PROD, SESSION_OPTIONS } from '../config';
 import { register } from './routes';
+import { notFound, serverError } from './middleware';
 // set up session
 // can make it so cookies can not be accesable client side through javascript
 // this is the default behavior for session
@@ -33,7 +34,7 @@ export const createApp = (store: Store) => {
   startChatConnection(io);
 
   app.get('/', (_, res: Response) => {
-    res.send({ data: 'ugh' });
+    res.json({ data: 'ugh' });
   });
 
   app.use(register);
@@ -42,6 +43,12 @@ export const createApp = (store: Store) => {
     const users = await User.find();
     res.json(users);
   });
+
+  //handles 404
+  app.use(notFound);
+
+  //this handles all errors in application
+  app.use(serverError);
 
   return server;
 };
