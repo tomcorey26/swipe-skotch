@@ -21,7 +21,7 @@ const password = Joi.string()
   .max(BYCRYPT_MAX_BYTES, 'utf8')
   .regex(/^(?=.*?[\p{Lu}])(?=.*?[\p{Ll}])(?=.*?\d).*$/u)
   .message(
-    '"{#label}" must contain one uppercase letter, one lower case letter, and one digit'
+    '"{#label}" must contain  one uppercase letter, one lower case letter, and one digit'
   )
   .required();
 
@@ -32,4 +32,9 @@ export const registerSchema = Joi.object({
   name,
   password,
   passwordConfirmation,
+});
+
+export const loginSchema = Joi.object({
+  email,
+  password,
 });

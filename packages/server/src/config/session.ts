@@ -1,13 +1,13 @@
 import { SessionOptions } from 'express-session';
+import { NODE_ENV } from './app';
 require('dotenv').config();
 
 const TWO_HOURS = 1000 * 60 * 60 * 2;
-const {
+export const {
   SESS_LIFETIME = TWO_HOURS,
   FRONTEND_URL,
   SESS_NAME,
   SESS_SECRET,
-  NODE_ENV,
 } = process.env;
 
 export const SESSION_OPTIONS: SessionOptions = {

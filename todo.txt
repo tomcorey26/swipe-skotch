@@ -6,3 +6,6 @@ learn resful api/node/express
 curls
 
 curl -X POST localhost:4000/register -H 'Content-Type: application/json' -d '{"email":"tom@gmail.com", "name":"Tom","password":"test1234","passwordConfirmation":"test1234"}'
+
+
+curl -X POST localhost:4000/login -H 'Content-Type: application/json' -d '{"email":"tom@gmail.com", "password":"Test1234"}'

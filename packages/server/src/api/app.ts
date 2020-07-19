@@ -5,7 +5,7 @@ import session, { Store } from 'express-session';
 import cors from 'cors';
 import { User } from '../entity/User';
 import { IN_PROD, SESSION_OPTIONS } from '../config';
-import { register } from './routes';
+import { register, login } from './routes';
 import { notFound, serverError } from './middleware';
 // set up session
 // can make it so cookies can not be accesable client side through javascript
@@ -38,6 +38,8 @@ export const createApp = (store: Store) => {
   });
 
   app.use(register);
+
+  app.use(login);
 
   app.get('/users', async function (_: Request, res: Response) {
     const users = await User.find();
