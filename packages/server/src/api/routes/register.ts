@@ -4,6 +4,8 @@ import { User } from '../../entity/User';
 import { logIn } from '../../auth';
 import { guest, catchAsync } from '../middleware';
 import { BadRequest } from '../../errors';
+import { hash } from 'bcryptjs';
+import { BYCRYPT_WORK_FACTOR } from '../../config/auth';
 
 const router = Router();
 
@@ -24,7 +26,12 @@ router.post(
       throw new BadRequest('Invalid Email');
     }
 
-    const user = await User.create({ email, password, name }).save();
+    const hashedPass = await hash(password, BYCRYPT_WORK_FACTOR);
+    const user = await User.create({
+      email,
+      password: hashedPass,
+      name,
+    }).save();
 
     logIn(req, user.id);
 
