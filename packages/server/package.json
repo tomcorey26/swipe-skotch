@@ -4,8 +4,12 @@
   "description": "Video chat dating app",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec ts-node src/app.ts",
+    "start": "nodemon --exec ts-node src/index.ts",
     "build": "tsc",
+    "up": "docker-compose up -d",
+    "postup": "npm start",
+    "stop": "docker-compose stop",
+    "down": "docker-compose down",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,18 +23,32 @@
   },
   "homepage": "https://github.com/tomcorey26/swipe-skotch#readme",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/connect-redis": "0.0.14",
     "@types/express": "^4.16.1",
+    "@types/hapi__joi": "^17.1.4",
+    "@types/ioredis": "^4.17.2",
     "ts-node": "^8.10.1",
     "tslint": "^5.12.1",
     "typescript": "^3.3.3"
   },
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "@skotch/common": "1.0.0",
     "@types/cors": "^2.8.6",
+    "@types/express-session": "^1.17.0",
     "@types/socket.io": "^2.1.8",
+    "bcryptjs": "^2.4.3",
+    "connect-redis": "^5.0.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.16.4",
+    "express-session": "^1.17.1",
+    "ioredis": "^4.17.3",
     "moment": "^2.26.0",
-    "socket.io": "^2.3.0"
+    "pg": "^8.3.0",
+    "redis": "^3.0.2",
+    "socket.io": "^2.3.0",
+    "typeorm": "^0.2.25"
   }
 }

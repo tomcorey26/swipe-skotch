@@ -1,0 +1,25 @@
+version: '3'
+
+# under here you list all the containers you wanna create
+# you give them names e.g db
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: swipe-skotch
+    # volumes are where you store the actual postgres data
+    # we do this because it persists the data if we destroy or create new containers
+    # we map our local ./pgdata folder to the /var/lib/postgresql/data on the container
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    # port mapping container:localmachine
+    ports:
+      - '5432:5432'
+
+  cache:
+    image: redis:alpine
+    ports:
+      - '6379:6379'
+    command: ['--requirepass "secret"']
