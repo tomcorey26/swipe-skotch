@@ -1,0 +1,5 @@
+chess syms in unicode
+https://en.wikipedia.org/wiki/Chess_symbols_in_Unicode
+
+convert string to unicode char in js
+https://stackoverflow.com/questions/7063255/how-can-i-convert-a-string-into-a-unicode-character
