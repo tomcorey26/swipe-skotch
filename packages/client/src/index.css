@@ -12,20 +12,26 @@ black #261c15
   --black: #261c15;
 }
 
+/* border box makes it so margin and padding arent added
+to the total width and height of the element
+ */
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
+/* We put font here cause it is usually inherited  
+  body is the parent of a lot of elemnts
+*/
+/* the first in font-family is the font we want 
+the second is for when the browser doesnt have it
+*/
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #777;
+  padding: 30px;
 }

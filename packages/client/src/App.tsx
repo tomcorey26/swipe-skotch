@@ -4,6 +4,7 @@ import { Chat } from './components/Chat/Chat';
 import { Navbar } from './components/Navbar/Navbar';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { ChessGame } from './components/Chess/Chess';
+import { Home } from './pages/Home/Home';
 
 const LoginPage = () => {
   return (
@@ -38,8 +39,9 @@ function App() {
     <div className="app">
       {/* <Navbar /> */}
       <Router>
-        <Route exact path="/" component={ChessGame} />
-        <Route exact path="/chat" component={Chat} />
+        <Route exact path="/" component={Home} />
+        <Route path="/chess" component={ChessGame} />
+        <Route path="/chat" component={Chat} />
         <Route path="/login" component={LoginPage} />
       </Router>
     </div>

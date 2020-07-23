@@ -1,0 +1,36 @@
+// vh and vw are percentages of whatever the viewport height is
+
+// cover makes the image cover the background
+// with out messing up the resolution
+// adjusts for viewport size
+//for clip image
+// -----------
+// |          x
+// |
+// | y
+.header {
+  height: 95vh;
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(12, 99, 145, 0.8),
+      rgba(251, 254, 249, 0.8)
+    ),
+    url('../../assets/header.jpg');
+  background-size: cover;
+  background-position: center;
+  // x y
+  clip-path: polygon(0 0, 100% 0, 100% 70vh, 0 100%);
+  position: relative;
+}
+
+.logo-box {
+  // origin point is on header because it is parent
+  // and we set position to relative
+  position: absolute;
+  top: 40px;
+  left: 40px;
+
+  .logo {
+    height: 35px;
+  }
+}
