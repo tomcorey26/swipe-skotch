@@ -12,6 +12,19 @@ export const Header: React.FC<HeaderProps> = ({}) => {
       <div className="logo-box">
         <img src={Logo} alt="Logo" className="logo" />
       </div>
+
+      <div className="text-box">
+        <h1 className="heading-primary">
+          <span className="heading-primary-main">ChessMingle</span>
+          <span className="heading-primary-sub">
+            Multiplayer Chess With Video Chat
+          </span>
+        </h1>
+
+        <a href="#" className="btn btn-white btn-animated">
+          Play Now
+        </a>
+      </div>
     </div>
   );
 };
