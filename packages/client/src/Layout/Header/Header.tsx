@@ -3,10 +3,12 @@ import './Header.scss';
 // in create-react-app relative paths for images dont work so you gotta
 // import them
 import Logo from '../../assets/logo-white.png';
+import { useHistory } from 'react-router-dom';
 
 interface HeaderProps {}
 
 export const Header: React.FC<HeaderProps> = ({}) => {
+  const router = useHistory();
   return (
     <div className="header">
       <div className="logo-box">
@@ -21,9 +23,12 @@ export const Header: React.FC<HeaderProps> = ({}) => {
           </span>
         </h1>
 
-        <a href="#" className="btn btn-white btn-animated">
+        <button
+          onClick={() => router.push('/chess')}
+          className="btn btn-white btn-animated"
+        >
           Play Now
-        </a>
+        </button>
       </div>
     </div>
   );

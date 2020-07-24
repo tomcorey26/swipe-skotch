@@ -132,10 +132,9 @@
 // block makes it take up whole line
 // a elements default to inline, which cannot be given width and height
 // inline block elements are treated as text
-.btn:link,
-.btn:visited {
+.btn {
   text-transform: uppercase;
-  text-decoration: none;
+  border: none;
   padding: 15px 40px;
   display: inline-block;
   border-radius: 100px;
@@ -144,8 +143,14 @@
   transition: all 0.2s;
   position: relative;
 
+  &:active,
+  &:focus {
+    outline: none;
+  }
+
   &:hover {
     transform: translateY(-3px);
+    cursor: pointer;
     // x y blur color (suttleshadow here)
     // the shadow makes it appear like the button moves towards you
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
