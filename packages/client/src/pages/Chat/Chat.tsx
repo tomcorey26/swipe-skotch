@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ChatMessages } from '../ChatMessages/ChatMessages';
+import { ChatMessages } from './ChatMessages/ChatMessages';
 import './Chat.scss';
 import socketIOClient from 'socket.io-client';
-import { VideoChat } from '../VideoChat/VideoChat';
+import { VideoChat } from './VideoChat/VideoChat';
 
 const socket = socketIOClient(process.env.REACT_APP_SERVER_URL as string);
 interface ChatProps {}

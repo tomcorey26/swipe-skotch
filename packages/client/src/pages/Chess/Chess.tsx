@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ChessInstance } from 'chess.js';
-import { Piece } from '../Piece/Piece';
+import { Piece } from './Piece/Piece';
 import { addBoardPositions } from '../../utils';
 
 interface ChessProps {}

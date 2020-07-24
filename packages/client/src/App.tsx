@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.scss';
-import { Chat } from './components/Chat/Chat';
+import { Chat } from './pages/Chat/Chat';
 import { Navbar } from './components/Navbar/Navbar';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { ChessGame } from './components/Chess/Chess';
+import { ChessGame } from './pages/Chess/Chess';
 import { Home } from './pages/Home/Home';
 
 const LoginPage = () => {

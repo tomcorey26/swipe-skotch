@@ -1,6 +1,6 @@
 import React from 'react';
 import './Home.scss';
-import { Header } from '../../Layout/Header/Header';
+import { Header } from '../../components/Header/Header';
 
 interface HomeProps {}
 
