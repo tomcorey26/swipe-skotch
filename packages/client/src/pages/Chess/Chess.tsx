@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import './Chess.scss';
 import { ChessInstance } from 'chess.js';
 import { Piece } from './Piece/Piece';
 import { addBoardPositions } from '../../utils';
+import { Board } from './Board/Board';
 
 interface ChessProps {}
 
@@ -24,55 +26,9 @@ export const ChessGame: React.FC<ChessProps> = ({}) => {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <button onClick={playGame}> Simulate a game!</button>
-      <div
-        style={{
-          width: '640px',
-          height: '640px',
-          backgroundColor: 'blue',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(8,80px)',
-          gridTemplateRows: 'repeat(8,80px)',
-          transform: playerColor === 'b' ? 'rotate(180deg) scaleX(-1)' : '',
-        }}
-      >
-        {board.map((row, j) => {
-          return row.map((piece: any, i: number) => (
-            <div
-              style={{
-                backgroundColor:
-                  i % 2 === 0
-                    ? j % 2 === 0
-                      ? 'blue'
-                      : 'brown'
-                    : j % 2 === 0
-                    ? 'brown'
-                    : 'blue',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                fontSize: 40,
-              }}
-              key={`${i}${j}`}
-            >
-              {piece ? (
-                <Piece
-                  type={piece.type}
-                  color={piece.color}
-                  playerColor={playerColor}
-                />
-              ) : null}
-            </div>
-          ));
-        })}
-      </div>
+    <div className="chess">
+      {/* <button onClick={playGame}> Simulate a game!</button> */}
+      <Board board={board} playerColor={playerColor} />
     </div>
   );
 };

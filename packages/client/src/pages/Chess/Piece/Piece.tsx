@@ -19,7 +19,7 @@ export const Piece: React.FC<PieceProps> = ({ color, type, playerColor }) => {
   };
   const isBlack = color === 'b';
   return (
-    <div>
+    <div className="piece">
       <h1
         style={{
           color: isBlack ? 'black' : 'white',
