@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Chess.scss';
 import { ChessInstance } from 'chess.js';
-import { Piece } from './Piece/Piece';
 import { addBoardPositions } from '../../utils';
 import { Board } from './Board/Board';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 interface ChessProps {}
 
@@ -12,6 +12,7 @@ const chess: ChessInstance = new chessReq();
 export const ChessGame: React.FC<ChessProps> = ({}) => {
   const [board, setBoard] = useState(() => addBoardPositions(chess.board()));
   const [playerColor, setPlayerColor] = useState<'b' | 'w'>('w');
+  const [checkmate, setCheckMate] = useState(false);
 
   useEffect(() => {}, []);
 
@@ -25,10 +26,31 @@ export const ChessGame: React.FC<ChessProps> = ({}) => {
     }
   };
 
+  const movePiece = (result: any) => {
+    if (!result.destination) return;
+    const from = result.draggableId;
+    const dest = result.destination.droppableId;
+    const moves = chess.moves({ square: from });
+
+    const IsMoveLegal = chess.move({ from: from, to: dest });
+    if (!IsMoveLegal) {
+      console.log('Not a valid movee');
+      return;
+    }
+
+    setBoard(addBoardPositions(chess.board()));
+    if (chess.in_checkmate()) {
+      setCheckMate(true);
+    }
+  };
+
   return (
     <div className="chess">
+      {checkmate && <h1 style={{ color: 'green' }}> Check mate bitch</h1>}
       <button onClick={playGame}> Simulate a game!</button>
-      <Board board={board} playerColor={playerColor} />
+      <DragDropContext onDragEnd={movePiece}>
+        <Board board={board} playerColor={playerColor} />
+      </DragDropContext>
     </div>
   );
 };

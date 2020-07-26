@@ -6,6 +6,10 @@ export interface GamePiece {
   position: SquareLabel;
 }
 
+export interface EmptySquare {
+  position: SquareLabel;
+}
+
 // prettier-ignore
 export type SquareLabel =
     'a1' | 'a2' | 'a3' | 'a4' | 'a5' | 'a6' | 'a7' | 'a8' |
