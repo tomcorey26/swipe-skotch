@@ -1,33 +1,15 @@
 import React from 'react';
 import './Board.scss';
-import { PieceType } from 'chess.js';
 import { Piece } from '../Piece/Piece';
+import { GamePiece } from '../../../Types';
+import { getSquareColor } from '../../../utils';
 
 interface BoardProps {
-  board: ({
-    type: PieceType;
-    color: 'b' | 'w';
-  } | null)[][];
+  board: (GamePiece | null)[][];
   playerColor: 'b' | 'w';
 }
 
 export const Board: React.FC<BoardProps> = ({ board, playerColor }) => {
-  const getSquareColor = (i: number, j: number) => {
-    if (i % 2 === 0) {
-      if (j % 2 === 0) {
-        return 'white';
-      } else {
-        return 'yellow';
-      }
-    } else {
-      if (j % 2 !== 0) {
-        return 'white';
-      } else {
-        return 'yellow';
-      }
-    }
-  };
-
   return (
     <div
       className="board"
@@ -36,7 +18,7 @@ export const Board: React.FC<BoardProps> = ({ board, playerColor }) => {
       }}
     >
       {board.map((row, j) => {
-        return row.map((piece: any, i: number) => (
+        return row.map((piece: GamePiece | null, i: number) => (
           <div
             className="square"
             style={{ backgroundColor: getSquareColor(i, j) }}

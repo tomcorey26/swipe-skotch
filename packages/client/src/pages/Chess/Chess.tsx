@@ -27,7 +27,7 @@ export const ChessGame: React.FC<ChessProps> = ({}) => {
 
   return (
     <div className="chess">
-      {/* <button onClick={playGame}> Simulate a game!</button> */}
+      <button onClick={playGame}> Simulate a game!</button>
       <Board board={board} playerColor={playerColor} />
     </div>
   );
