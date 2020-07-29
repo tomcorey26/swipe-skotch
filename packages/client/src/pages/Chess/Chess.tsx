@@ -1,30 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import './Chess.scss';
-import { ChessInstance } from 'chess.js';
-import { addBoardPositions } from '../../utils';
 import { Board } from './Board/Board';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useChessState, useChessDispatch } from './context';
+import { addBoardPositions } from '../../utils';
 
 interface ChessProps {}
 
-const chessReq: any = require('chess.js');
-const chess: ChessInstance = new chessReq();
 export const ChessGame: React.FC<ChessProps> = ({}) => {
-  const [board, setBoard] = useState(() => addBoardPositions(chess.board()));
-  const [playerColor, setPlayerColor] = useState<'b' | 'w'>('w');
-  const [checkmate, setCheckMate] = useState(false);
+  const { board, isCheckmate, playerColor, chess } = useChessState();
+  const dispatch = useChessDispatch();
 
-  useEffect(() => {}, []);
-
-  const playGame = async () => {
-    while (!chess.game_over()) {
-      const moves = chess.moves();
-      const move = moves[Math.floor(Math.random() * moves.length)];
-      chess.move(move);
-      await new Promise((res) => setTimeout(res, 1000));
-      setBoard(addBoardPositions(chess.board()));
-    }
-  };
+  // const playGame = async () => {
+  //   while (!chess.game_over()) {
+  //     const moves = chess.moves();
+  //     const move = moves[Math.floor(Math.random() * moves.length)];
+  //     chess.move(move);
+  //     await new Promise((res) => setTimeout(res, 1000));
+  //     setBoard(addBoardPositions(chess.board()));
+  //   }
+  // };
 
   const movePiece = (result: any) => {
     if (!result.destination) return;
@@ -38,19 +34,20 @@ export const ChessGame: React.FC<ChessProps> = ({}) => {
       return;
     }
 
-    setBoard(addBoardPositions(chess.board()));
+    dispatch({ type: 'set_board', payload: addBoardPositions(chess.board()) });
     if (chess.in_checkmate()) {
-      setCheckMate(true);
+      dispatch({ type: 'set_checkmate' });
     }
   };
 
   return (
     <div className="chess">
-      {checkmate && <h1 style={{ color: 'green' }}> Check mate bitch</h1>}
-      <button onClick={playGame}> Simulate a game!</button>
-      <DragDropContext onDragEnd={movePiece}>
+      {isCheckmate && <h1 style={{ color: 'green' }}> Check mate bitch</h1>}
+      {/* <button onClick={playGame}> Simulate a game!</button> */}
+
+      <DndProvider backend={HTML5Backend}>
         <Board board={board} playerColor={playerColor} />
-      </DragDropContext>
+      </DndProvider>
     </div>
   );
 };

@@ -3,8 +3,10 @@ import './Piece.scss';
 import { PieceType } from 'chess.js';
 import { GamePiece } from '../../../Types';
 import { Draggable } from 'react-beautiful-dnd';
+import { useDrag } from 'react-dnd';
+import { pieceToUnicode } from '../../../utils';
 
-type PieceProps = GamePiece & { playerColor: 'b' | 'w' } & { index: number };
+type PieceProps = GamePiece & { playerColor: 'b' | 'w' };
 // {
 //   type: PieceType;
 //   color: 'b' | 'w';
@@ -16,40 +18,28 @@ export const Piece: React.FC<PieceProps> = ({
   type,
   position,
   playerColor,
-  index,
 }) => {
-  const map = {
-    p: '\u2659',
-    n: '\u2658',
-    b: '\u2657',
-    r: '\u2656',
-    q: '\u2655',
-    k: '\u2654',
-  };
+  const [{ isDragging }, drag] = useDrag({
+    item: { type, position },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  });
+
   const isBlack = color === 'b';
+
   return (
-    <Draggable draggableId={position} index={index}>
-      {(provided, snapshot) => {
-        return (
-          <div
-            className="piece"
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-          >
-            <h1
-              style={{
-                userSelect: 'none',
-                color: isBlack ? 'black' : 'white',
-                transform:
-                  playerColor === 'b' ? 'rotate(180deg) scaleX(-1)' : '',
-              }}
-            >
-              {map[type]}
-            </h1>
-          </div>
-        );
-      }}
-    </Draggable>
+    <div className="piece" ref={drag}>
+      <h1
+        style={{
+          opacity: isDragging ? 0.8 : 1,
+          userSelect: 'none',
+          color: isBlack ? 'black' : 'white',
+          transform: playerColor === 'b' ? 'rotate(180deg) scaleX(-1)' : '',
+        }}
+      >
+        {pieceToUnicode[type]}
+      </h1>
+    </div>
   );
 };

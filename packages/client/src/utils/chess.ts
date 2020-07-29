@@ -30,3 +30,12 @@ export const getSquareColor = (i: number, j: number) => {
     }
   }
 };
+
+export const pieceToUnicode = {
+  p: '\u2659',
+  n: '\u2658',
+  b: '\u2657',
+  r: '\u2656',
+  q: '\u2655',
+  k: '\u2654',
+};

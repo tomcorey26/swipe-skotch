@@ -1,5 +1,15 @@
 import { PieceType } from 'chess.js';
 
+export type ChessBoard = (GamePiece | EmptySquare)[][];
+export const ItemTypes = {
+  KNIGHT: 'n',
+  PAWN: 'p',
+  QUEEN: 'q',
+  ROOK: 'r',
+  BISHOP: 'b',
+  KING: 'k',
+};
+
 export interface GamePiece {
   type: PieceType;
   color: 'b' | 'w';
