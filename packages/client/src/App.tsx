@@ -1,8 +1,11 @@
 import React from 'react';
 import './App.scss';
-import { Chat } from './components/Chat/Chat';
+import { Chat } from './pages/Chat/Chat';
 import { Navbar } from './components/Navbar/Navbar';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { ChessGame } from './pages/Chess/Chess';
+import { Home } from './pages/Home/Home';
+import { ChessProvider } from './pages/Chess/context';
 
 const LoginPage = () => {
   return (
@@ -37,7 +40,11 @@ function App() {
     <div className="app">
       {/* <Navbar /> */}
       <Router>
-        <Route exact path="/" component={Chat} />
+        <Route exact path="/" component={Home} />
+        <ChessProvider>
+          <Route path="/chess" component={ChessGame} />
+        </ChessProvider>
+        <Route path="/chat" component={Chat} />
         <Route path="/login" component={LoginPage} />
       </Router>
     </div>

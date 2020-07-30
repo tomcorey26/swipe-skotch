@@ -1,0 +1,211 @@
+// vh and vw are percentages of whatever the viewport height is
+
+// cover makes the image cover the background
+// with out messing up the resolution
+// adjusts for viewport size
+//for clip image
+// -----------
+// |          x
+// |
+// | y
+.header {
+  height: 95vh;
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(12, 99, 145, 0.8),
+      rgba(251, 254, 249, 0.8)
+    ),
+    url('../../assets/header.jpg');
+  background-size: cover;
+  background-position: center;
+  // x y
+  clip-path: polygon(0 0, 100% 0, 100% 70vh, 0 100%);
+  position: relative;
+}
+
+.logo-box {
+  // origin point is on header because it is parent
+  // and we set position to relative
+  position: absolute;
+  top: 40px;
+  left: 40px;
+
+  .logo {
+    height: 35px;
+  }
+}
+
+//be careful
+//absolute positioning is based off the top left point of the div
+// position absolute is based of parent elent position
+// translate is based of the position of the element itself
+.text-box {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  // this compensates for the positioning of the top left point
+  // it moves the box in a way that the point is now in the middle
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+  .heading-primary {
+    color: var(--white);
+    text-transform: uppercase;
+    // fixes animation shake no one knows why
+    backface-visibility: hidden;
+    margin-bottom: 60px;
+
+    .heading-primary-main {
+      display: block;
+      font-size: 60px;
+      font-weight: 400;
+      letter-spacing: 35px;
+      animation-name: moveInLeft;
+      animation-duration: 1s;
+      animation-timing-function: ease-out;
+    }
+
+    .heading-primary-sub {
+      display: block;
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: 15px;
+      animation: moveInRight 1s ease-out;
+    }
+  }
+}
+
+// For best performance only use the opacity and transform properties for animation
+// the browsers are optimized for these
+// you can do a lot of stuff with transform
+
+// Notable animation properties
+// animation-name (required)
+// animation-duration (required)
+//animation-delay: 2s 3s 4s
+// animation-iteration-count: e.g 2s 3s 4s
+// animation-timing-function: e.g ease-in ease-out
+// animation: shorthand property
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+// comma seperated means you want to apply to them
+// inline block allows you to give element width height padding etc while element is still inline
+// block makes it take up whole line
+// a elements default to inline, which cannot be given width and height
+// inline block elements are treated as text
+.btn {
+  text-transform: uppercase;
+  border: none;
+  padding: 15px 40px;
+  display: inline-block;
+  border-radius: 100px;
+  // transition to different states
+  // alternative/simpler way then making keyframes
+  transition: all 0.2s;
+  position: relative;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    cursor: pointer;
+    // x y blur color (suttleshadow here)
+    // the shadow makes it appear like the button moves towards you
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    &::after {
+      transform: scaleX(1.4) scaleY(1.6);
+      opacity: 0;
+    }
+  }
+  //when you click an element it goes to active state
+  &:active {
+    transform: translateY(-1px);
+    // less blur
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  //adds "virtual" element right after element we are selecting
+  // pop out animation by hiding a button behind the real button
+  // have to specify content and display or else element wont appear
+  &::after {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    // puts element right behind button
+    // absolute bases it pos off of first relative parent
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all 0.4s;
+  }
+}
+
+.btn-white {
+  background-color: #fff;
+  color: #777;
+
+  &::after {
+    background-color: #fff;
+  }
+}
+
+.btn-animated {
+  // animationname duration durationfunction delay
+  animation: moveInBottom 0.5s ease-out 0.75;
+  // since we have a delay the button will start at its normal position
+  // we want it to start from invisible though so we use animation-fillmode
+  // this makes it so in the keyframes the styles specified
+  // at 0% are what the element starts at before the animation happens
+  animation-fill-mode: backwards;
+}
+
+//animations transition and transform
+// you put your transition in the initial state
+// you put your tranform in the after state e.g
+// transition in .btn
+// tranform in .btn:hover
