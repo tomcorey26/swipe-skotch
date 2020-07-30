@@ -18,23 +18,25 @@ export const Piece: React.FC<PieceProps> = ({
   position,
   playerColor,
 }) => {
-  const [{ isDragging, foo }, drag] = useDrag({
+  const [{ isDragging }, drag] = useDrag({
     item: { type: 'piece', position },
     collect: (monitor: DragLayerMonitor) => ({
       isDragging: !!monitor.isDragging(),
-      foo: monitor.getItem(),
     }),
   });
-  console.log('fook me laddy');
-  console.log('drag item ', foo);
 
   const isBlack = color === 'b';
 
   return (
-    <div className="piece" ref={drag}>
+    <div
+      className="piece"
+      ref={drag}
+      style={{
+        cursor: isDragging ? 'grabbing' : 'grab',
+      }}
+    >
       <h1
         style={{
-          opacity: isDragging ? 0.8 : 1,
           userSelect: 'none',
           color: isBlack ? 'black' : 'white',
           transform: playerColor === 'b' ? 'rotate(180deg) scaleX(-1)' : '',

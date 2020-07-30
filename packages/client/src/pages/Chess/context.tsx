@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChessInstance } from 'chess.js';
-import { addBoardPositions } from '../../utils';
+import { addBoardPositions, movePiece } from '../../utils';
 import { ChessBoard, SquareLabel } from '../../Types';
 
 type Action =
@@ -10,11 +10,12 @@ type Action =
 
 type Dispatch = (action: Action) => void;
 
-type State = {
+export type State = {
   board: any;
   playerColor: 'b' | 'w';
   isCheckmate: boolean;
   chess: ChessInstance;
+  error: string;
 };
 
 type ChessProviderProps = { children: React.ReactNode };
@@ -33,7 +34,8 @@ function chessReducer(state: State, action: Action) {
       return { ...state, isCheckmate: true };
     }
     case 'move_piece': {
-      return { ...state, isCheckmate: true };
+      console.log(action.payload);
+      return movePiece(action.payload.from, action.payload.to, state, chess);
     }
     default: {
       throw new Error(`Unhandled action type: ${action!.type}`);
@@ -49,6 +51,7 @@ function ChessProvider({ children }: ChessProviderProps) {
     board: addBoardPositions(chess.board()),
     playerColor: 'w',
     isCheckmate: false,
+    error: '',
   });
   return (
     <ChessStateContext.Provider value={state}>

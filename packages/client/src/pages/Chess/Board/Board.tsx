@@ -22,13 +22,13 @@ export const Board: React.FC<BoardProps> = ({ board, playerColor }) => {
     >
       {board.map((row, j) => {
         return row.map((square: GamePiece | EmptySquare, i: number) => (
-          <Square color={getSquareColor(i, j)} position={square.position}>
+          <Square
+            color={getSquareColor(i, j)}
+            position={square.position}
+            key={square.position}
+          >
             {'type' in square ? (
-              <Piece
-                key={square.position}
-                {...square}
-                playerColor={playerColor}
-              />
+              <Piece {...square} playerColor={playerColor} />
             ) : null}
           </Square>
         ));

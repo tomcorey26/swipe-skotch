@@ -21,19 +21,20 @@ export const Square: React.FC<SquareProps> = ({
     drop: (piece, blah) =>
       dispatch({
         type: 'move_piece',
-        payload: { from: blah.getItem(), to: position },
+        payload: { from: blah.getItem().position, to: position },
       }),
     collect: (mon) => ({
       isOver: !!mon.isOver(),
       canDrop: !!mon.canDrop(),
     }),
   });
-
+  //use css property background img for chess piece
   return (
     <div
       className="square"
+      ref={drop}
       style={{
-        backgroundColor: color,
+        backgroundColor: isOver ? 'lightblue' : color,
       }}
     >
       {children}
