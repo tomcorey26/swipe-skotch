@@ -2,7 +2,6 @@ import React from 'react';
 import './Piece.scss';
 import { PieceType } from 'chess.js';
 import { GamePiece } from '../../../Types';
-import { Draggable } from 'react-beautiful-dnd';
 import { useDrag } from 'react-dnd';
 import { pieceToUnicode } from '../../../utils';
 
