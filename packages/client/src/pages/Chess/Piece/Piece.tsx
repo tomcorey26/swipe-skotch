@@ -2,7 +2,7 @@ import React from 'react';
 import './Piece.scss';
 import { PieceType } from 'chess.js';
 import { GamePiece } from '../../../Types';
-import { useDrag } from 'react-dnd';
+import { useDrag, DragLayerMonitor } from 'react-dnd';
 import { pieceToUnicode } from '../../../utils';
 
 type PieceProps = GamePiece & { playerColor: 'b' | 'w' };
@@ -18,12 +18,15 @@ export const Piece: React.FC<PieceProps> = ({
   position,
   playerColor,
 }) => {
-  const [{ isDragging }, drag] = useDrag({
-    item: { type, position },
-    collect: (monitor) => ({
+  const [{ isDragging, foo }, drag] = useDrag({
+    item: { type: 'piece', position },
+    collect: (monitor: DragLayerMonitor) => ({
       isDragging: !!monitor.isDragging(),
+      foo: monitor.getItem(),
     }),
   });
+  console.log('fook me laddy');
+  console.log('drag item ', foo);
 
   const isBlack = color === 'b';
 

@@ -2,6 +2,7 @@ import React from 'react';
 import './Square.scss';
 import { useDrop } from 'react-dnd';
 import { SquareLabel } from '../../../Types';
+import { useChessDispatch } from '../context';
 
 interface SquareProps {
   color: string;
@@ -13,13 +14,21 @@ export const Square: React.FC<SquareProps> = ({
   color,
   position,
 }) => {
-  // const [{ pieceType }, drop] = useDrop({
-  //   accept: pieceType,
-  //   drop: () => moveKnight(x, y),
-  //   collect: (mon) => ({
-  //     pieceType: mon.getItem(),
-  //   }),
-  // });
+  const dispatch = useChessDispatch();
+
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: 'piece',
+    drop: (piece, blah) =>
+      dispatch({
+        type: 'move_piece',
+        payload: { from: blah.getItem(), to: position },
+      }),
+    collect: (mon) => ({
+      isOver: !!mon.isOver(),
+      canDrop: !!mon.canDrop(),
+    }),
+  });
+
   return (
     <div
       className="square"

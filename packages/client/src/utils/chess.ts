@@ -1,4 +1,5 @@
-import { GamePiece, EmptySquare } from '../Types/chess';
+import { GamePiece, EmptySquare, SquareLabel } from '../Types/chess';
+import { ChessInstance } from 'chess.js';
 
 export const addBoardPositions = (
   board: any[]
@@ -28,6 +29,21 @@ export const getSquareColor = (i: number, j: number) => {
     } else {
       return 'orange';
     }
+  }
+};
+
+const movePiece = (from: SquareLabel, state: State, chess: ChessInstance) => {
+  const moves = chess.moves({ square: from });
+
+  const IsMoveLegal = chess.move({ from: from, to: dest });
+  if (!IsMoveLegal) {
+    console.log('Not a valid movee');
+    return;
+  }
+
+  dispatch({ type: 'set_board', payload: addBoardPositions(chess.board()) });
+  if (chess.in_checkmate()) {
+    dispatch({ type: 'set_checkmate' });
   }
 };
 

@@ -1,11 +1,12 @@
 import React from 'react';
 import { ChessInstance } from 'chess.js';
 import { addBoardPositions } from '../../utils';
-import { ChessBoard } from '../../Types';
+import { ChessBoard, SquareLabel } from '../../Types';
 
 type Action =
   | { type: 'set_board'; payload: ChessBoard }
-  | { type: 'set_checkmate' };
+  | { type: 'set_checkmate' }
+  | { type: 'move_piece'; payload: { from: SquareLabel; to: SquareLabel } };
 
 type Dispatch = (action: Action) => void;
 
@@ -29,6 +30,9 @@ function chessReducer(state: State, action: Action) {
       return { ...state, board: action.payload };
     }
     case 'set_checkmate': {
+      return { ...state, isCheckmate: true };
+    }
+    case 'move_piece': {
       return { ...state, isCheckmate: true };
     }
     default: {
