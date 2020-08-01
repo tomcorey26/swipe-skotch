@@ -3,6 +3,7 @@ import './Square.scss';
 import { useDrop } from 'react-dnd';
 import { SquareLabel } from '../../../Types';
 import { useChessDispatch } from '../context';
+import { monitorEventLoopDelay } from 'perf_hooks';
 
 interface SquareProps {
   color: string;
@@ -18,11 +19,13 @@ export const Square: React.FC<SquareProps> = ({
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: 'piece',
-    drop: (piece, blah) =>
+    drop: (_, draggable) => {
       dispatch({
         type: 'move_piece',
-        payload: { from: blah.getItem().position, to: position },
-      }),
+        payload: { from: draggable.getItem().position, to: position },
+      });
+    },
+    canDrop: (_, mon) => mon.getItem().position !== position,
     collect: (mon) => ({
       isOver: !!mon.isOver(),
       canDrop: !!mon.canDrop(),
@@ -34,7 +37,7 @@ export const Square: React.FC<SquareProps> = ({
       className="square"
       ref={drop}
       style={{
-        backgroundColor: isOver ? 'lightblue' : color,
+        backgroundColor: isOver && canDrop ? 'lightblue' : color,
       }}
     >
       {children}

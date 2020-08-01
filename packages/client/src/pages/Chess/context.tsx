@@ -14,8 +14,10 @@ export type State = {
   board: any;
   playerColor: 'b' | 'w';
   isCheckmate: boolean;
+  isCheck: boolean;
   chess: ChessInstance;
   error: string;
+  captured: boolean;
 };
 
 type ChessProviderProps = { children: React.ReactNode };
@@ -51,7 +53,9 @@ function ChessProvider({ children }: ChessProviderProps) {
     board: addBoardPositions(chess.board()),
     playerColor: 'w',
     isCheckmate: false,
+    isCheck: false,
     error: '',
+    captured: false,
   });
   return (
     <ChessStateContext.Provider value={state}>

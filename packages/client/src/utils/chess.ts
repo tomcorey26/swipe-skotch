@@ -18,17 +18,19 @@ export const addBoardPositions = (
 };
 
 export const getSquareColor = (i: number, j: number) => {
+  const color1 = '#58a4b0';
+  const color2 = '#BAC1B8';
   if (i % 2 === 0) {
     if (j % 2 === 0) {
-      return 'white';
+      return color1;
     } else {
-      return 'orange';
+      return color2;
     }
   } else {
     if (j % 2 !== 0) {
-      return 'white';
+      return color1;
     } else {
-      return 'orange';
+      return color2;
     }
   }
 };
@@ -41,15 +43,20 @@ export const movePiece = (
 ) => {
   // const moves = chess.moves({ square: from });
 
+  const IsPromotion = chess.move({ from, to, promotion: 'q' });
   const IsMoveLegal = chess.move({ from, to });
-  if (!IsMoveLegal) {
+  if (!IsMoveLegal && !IsPromotion) {
     console.log('Not a valid movee');
     return { ...state, error: 'not a valid move' };
   }
+
+  const move = IsMoveLegal ? IsMoveLegal : IsPromotion;
   return {
     ...state,
     isCheckmate: chess.in_checkmate(),
+    isCheck: chess.in_check(),
     board: addBoardPositions(chess.board()),
+    captured: !!move?.captured,
   };
 };
 

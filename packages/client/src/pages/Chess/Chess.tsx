@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Chess.scss';
 import { Board } from './Board/Board';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useChessState, useChessDispatch } from './context';
-import { addBoardPositions } from '../../utils';
+import { useChessState } from './context';
+import { usePieceSound } from './Hooks';
 
 interface ChessProps {}
 
 export const ChessGame: React.FC<ChessProps> = ({}) => {
   const { board, isCheckmate, playerColor } = useChessState();
-
+  usePieceSound();
   // const playGame = async () => {
   //   while (!chess.game_over()) {
   //     const moves = chess.moves();
