@@ -10,6 +10,7 @@ type Action =
 
 type Dispatch = (action: Action) => void;
 
+//player joined?
 export type State = {
   board: any;
   playerColor: 'b' | 'w';
