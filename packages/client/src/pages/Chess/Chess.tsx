@@ -7,6 +7,7 @@ import { useChessState } from '../../context/chess';
 import { usePieceSound } from '../../hooks';
 import { SideCard } from './SideCard/SideCard';
 import { SocketIoProvider } from '../../context/socketIO';
+import { VideoChat } from '../../components/VideoChat/VideoChat';
 
 export const ChessGame: React.FC = () => {
   const { board, isCheckmate, playerColor } = useChessState();
@@ -15,12 +16,16 @@ export const ChessGame: React.FC = () => {
     <SocketIoProvider>
       <div className="container">
         <div className="chess">
-          {isCheckmate && <h1 style={{ color: 'green' }}> Check mate bitch</h1>}
-          {/* <button onClick={playGame}> Simulate a game!</button> */}
+          <VideoChat>
+            {isCheckmate && (
+              <h1 style={{ color: 'green' }}> Check mate bitch</h1>
+            )}
+            {/* <button onClick={playGame}> Simulate a game!</button> */}
 
-          <DndProvider backend={HTML5Backend}>
-            <Board board={board} playerColor={playerColor} />
-          </DndProvider>
+            <DndProvider backend={HTML5Backend}>
+              <Board board={board} playerColor={playerColor} />
+            </DndProvider>
+          </VideoChat>
           <SideCard />
         </div>
       </div>

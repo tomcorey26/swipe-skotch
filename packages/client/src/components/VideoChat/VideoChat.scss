@@ -1,11 +1,6 @@
-.videos {
-  grid-area: video;
-  display: flex;
-  flex-direction: column;
-  .video-frame {
-    height: 50%;
-    width: 100%;
-  }
+.video-frame {
+  height: 100px;
+  width: 100px;
 }
 video {
   width: 100%;
