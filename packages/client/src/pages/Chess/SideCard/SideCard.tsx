@@ -4,15 +4,12 @@ import socketIOClient from 'socket.io-client';
 import { useSocketTextChat } from '../../../hooks';
 import { ChatMessages } from '../../../components/ChatMessages/ChatMessages';
 
-interface SideCardProps {
-  socket: SocketIOClient.Socket;
-}
+interface SideCardProps {}
 
-export const SideCard: React.FC<SideCardProps> = ({ socket }) => {
+export const SideCard: React.FC<SideCardProps> = ({}) => {
   return (
     <div className="side-card">
-      {/* <ChatMessages socket={socket} /> */}
-      <h1>foo</h1>
+      <ChatMessages />
     </div>
   );
 };

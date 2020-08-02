@@ -4,7 +4,7 @@ import { userMessage } from '@skotch/common';
 
 const socket = socketIOClient(process.env.REACT_APP_SERVER_URL as string);
 
-interface SocketProps {
+export interface SocketProps {
   socket: SocketIOClient.Socket;
   yourID: string;
   users: any;

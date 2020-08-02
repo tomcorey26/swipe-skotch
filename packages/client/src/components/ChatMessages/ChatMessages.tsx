@@ -1,16 +1,12 @@
 import React from 'react';
 import './ChatMessage.scss';
 import { useSocketTextChat } from '../../hooks';
+import { useSocketIoContext } from '../../context/socketIO';
 
-interface ChatMessagesProps {
-  socket: SocketIOClient.Socket;
-  yourID: string;
-}
+interface ChatMessagesProps {}
 
-export const ChatMessages: React.FC<ChatMessagesProps> = ({
-  socket,
-  yourID,
-}) => {
+export const ChatMessages: React.FC<ChatMessagesProps> = ({}) => {
+  const { socket } = useSocketIoContext();
   const { input, setInput, emitMessage, messages } = useSocketTextChat(socket);
   return (
     <>
