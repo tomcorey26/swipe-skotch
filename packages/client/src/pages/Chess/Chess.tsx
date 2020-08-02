@@ -3,9 +3,8 @@ import './Chess.scss';
 import { Board } from './Board/Board';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useChessState } from './context';
-import { usePieceSound } from './Hooks';
-import { useSocketIO } from '../../hooks';
+import { useChessState } from '../../context/chess';
+import { useSocketIO, usePieceSound } from '../../hooks';
 import { SideCard } from './SideCard/SideCard';
 
 interface ChessProps {}

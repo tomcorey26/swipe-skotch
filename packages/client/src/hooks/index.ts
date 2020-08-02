@@ -1,2 +1,2 @@
-export * from './useSocketIO';
-export * from './useSocketTextChat';
+export * from './socketIO';
+export * from './chess';

@@ -5,7 +5,7 @@ import { Navbar } from './components/Navbar/Navbar';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ChessGame } from './pages/Chess/Chess';
 import { Home } from './pages/Home/Home';
-import { ChessProvider } from './pages/Chess/context';
+import { ChessProvider } from './context/chess';
 
 const LoginPage = () => {
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ChessInstance } from 'chess.js';
-import { addBoardPositions, movePiece } from '../../utils';
-import { ChessBoard, SquareLabel } from '../../Types';
+import { addBoardPositions, movePiece } from '../utils';
+import { ChessBoard, SquareLabel } from '../Types';
 
 type Action =
   | { type: 'set_board'; payload: ChessBoard }

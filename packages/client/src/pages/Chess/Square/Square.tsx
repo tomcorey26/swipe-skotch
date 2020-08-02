@@ -2,7 +2,7 @@ import React from 'react';
 import './Square.scss';
 import { useDrop } from 'react-dnd';
 import { SquareLabel } from '../../../Types';
-import { useChessDispatch } from '../context';
+import { useChessDispatch } from '../../../context/chess';
 import { monitorEventLoopDelay } from 'perf_hooks';
 
 interface SquareProps {

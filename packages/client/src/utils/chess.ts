@@ -1,6 +1,6 @@
 import { GamePiece, EmptySquare, SquareLabel } from '../Types/chess';
 import { ChessInstance } from 'chess.js';
-import { State } from '../pages/Chess/context';
+import { State } from '../context/chess';
 
 export const addBoardPositions = (
   board: any[]

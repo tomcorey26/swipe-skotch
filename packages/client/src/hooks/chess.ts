@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { useChessState } from '../context';
-const moveSound = require('../../../assets/move.wav');
-const checkSound = require('../../../assets/check.wav');
-const checkmateSound = require('../../../assets/checkmate.wav');
-const takeSound = require('../../../assets/take.wav');
+import { useChessState } from '../context/chess';
+const moveSound = require('../assets/move.wav');
+const checkSound = require('../assets/check.wav');
+const checkmateSound = require('../assets/checkmate.wav');
+const takeSound = require('../assets/take.wav');
 
 const playAudio = (url: string) => {
   let audio = new Audio(url);
@@ -28,5 +28,5 @@ export const usePieceSound = () => {
     } else {
       playAudio(moveSound);
     }
-  }, [board, isCheckmate, isCheck]);
+  }, [board, isCheckmate, isCheck, captured]);
 };
