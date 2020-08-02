@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import { Chat } from './pages/Chat/Chat';
+import { Chat } from './components/Chat/Chat';
 import { Navbar } from './components/Navbar/Navbar';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ChessGame } from './pages/Chess/Chess';
@@ -44,7 +44,7 @@ function App() {
         <ChessProvider>
           <Route path="/chess" component={ChessGame} />
         </ChessProvider>
-        <Route path="/chat" component={Chat} />
+        {/* <Route path="/chat" component={Chat} /> */}
         <Route path="/login" component={LoginPage} />
       </Router>
     </div>

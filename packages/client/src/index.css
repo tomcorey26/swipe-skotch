@@ -10,6 +10,7 @@ black #261c15
   --white: #fbfef9;
   --blue: #0c6291;
   --black: #261c15;
+  --background: #eeeeee;
 }
 
 /* border box makes it so margin and padding arent added
@@ -33,4 +34,5 @@ body {
   font-size: 16px;
   line-height: 1.7;
   color: #777;
+  background-color: var(--background);
 }

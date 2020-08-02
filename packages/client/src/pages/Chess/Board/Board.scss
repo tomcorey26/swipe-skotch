@@ -1,10 +1,12 @@
+// must be divisible by 8 for even board
+$size: 480px;
 .board {
-  width: 640px;
-  height: 640px;
+  width: $size;
+  height: $size;
   background-color: blue;
   display: grid;
-  grid-template-columns: repeat(8, 80px);
-  grid-template-rows: repeat(8, 80px);
+  grid-template-columns: repeat(8, calc(#{$size} / 8));
+  grid-template-rows: repeat(8, calc(#{$size} / 8));
 }
 
 .square {
