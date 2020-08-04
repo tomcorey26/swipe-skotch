@@ -6,6 +6,7 @@ import { REDIS_OPTIONS, APP_PORT } from './config';
 import { createApp } from './api/app';
 require('dotenv').config();
 
+//need redis and postgresdocker connected
 //create type orm connection
 (async () => {
   try {

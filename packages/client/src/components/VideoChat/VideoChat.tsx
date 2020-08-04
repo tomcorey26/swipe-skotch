@@ -1,18 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Peer, { SignalData } from 'simple-peer';
 import './VideoChat.scss';
+import { useSocketIO } from '../../hooks';
 
-interface VideoChatProps {
-  socket: SocketIOClient.Socket;
-  users: any;
-  yourID: string;
-}
+interface VideoChatProps {}
 
-export const VideoChat: React.FC<VideoChatProps> = ({
-  socket,
-  users,
-  yourID,
-}) => {
+export const VideoChat: React.FC<VideoChatProps> = ({ children }) => {
+  const { socket, yourID, users } = useSocketIO();
   const [stream, setStream] = useState<MediaStream>();
   const [receivingCall, setReceivingCall] = useState(false);
   const [caller, setCaller] = useState('');
@@ -132,11 +126,10 @@ export const VideoChat: React.FC<VideoChatProps> = ({
   }
 
   return (
-    <>
-      <div className="videos">
-        <div className="video-frame">{UserVideo}</div>
-        <div className="video-frame">{PartnerVideo}</div>
-      </div>
+    <div className="videochat">
+      <div className="video-frame">{UserVideo}</div>
+      {children}
+      <div className="video-frame">{PartnerVideo}</div>
       <div className="disconnect">
         {Object.keys(users).map((id, i) => {
           if (id === yourID) {
@@ -151,6 +144,6 @@ export const VideoChat: React.FC<VideoChatProps> = ({
         })}
         {incomingCall}
       </div>
-    </>
+    </div>
   );
 };

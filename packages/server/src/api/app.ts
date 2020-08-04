@@ -1,6 +1,6 @@
 import express, { Response, Request } from 'express';
 import ioserver from 'socket.io';
-import { startChatConnection } from '../startChatConnection';
+import { startConnection } from '../socketIO/startChatConnection';
 import session, { Store } from 'express-session';
 import cors from 'cors';
 import { User } from '../entity/User';
@@ -31,7 +31,7 @@ export const createApp = (store: Store) => {
 
   app.use(session({ ...SESSION_OPTIONS, store: store }));
 
-  startChatConnection(io);
+  startConnection(io);
 
   app.get('/', (_, res: Response) => {
     res.json({ data: 'ugh' });

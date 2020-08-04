@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.scss';
-import { Chat } from './pages/Chat/Chat';
+import { Chat } from './components/Chat/Chat';
 import { Navbar } from './components/Navbar/Navbar';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ChessGame } from './pages/Chess/Chess';
 import { Home } from './pages/Home/Home';
-import { ChessProvider } from './pages/Chess/context';
+import { ChessProvider } from './context/chess';
+import { SocketIoProvider } from './context/socketIO';
 
 const LoginPage = () => {
   return (
@@ -42,9 +43,11 @@ function App() {
       <Router>
         <Route exact path="/" component={Home} />
         <ChessProvider>
-          <Route path="/chess" component={ChessGame} />
+          <SocketIoProvider>
+            <Route path="/chess" component={ChessGame} />
+          </SocketIoProvider>
         </ChessProvider>
-        <Route path="/chat" component={Chat} />
+        {/* <Route path="/chat" component={Chat} /> */}
         <Route path="/login" component={LoginPage} />
       </Router>
     </div>

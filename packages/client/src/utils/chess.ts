@@ -1,6 +1,4 @@
-import { GamePiece, EmptySquare, SquareLabel } from '../Types/chess';
-import { ChessInstance } from 'chess.js';
-import { State } from '../pages/Chess/context';
+import { GamePiece, EmptySquare } from '../Types/chess';
 
 export const addBoardPositions = (
   board: any[]
@@ -18,39 +16,21 @@ export const addBoardPositions = (
 };
 
 export const getSquareColor = (i: number, j: number) => {
+  const color1 = '#58a4b0';
+  const color2 = '#BAC1B8';
   if (i % 2 === 0) {
     if (j % 2 === 0) {
-      return 'white';
+      return color1;
     } else {
-      return 'orange';
+      return color2;
     }
   } else {
     if (j % 2 !== 0) {
-      return 'white';
+      return color1;
     } else {
-      return 'orange';
+      return color2;
     }
   }
-};
-
-export const movePiece = (
-  from: SquareLabel,
-  to: SquareLabel,
-  state: State,
-  chess: ChessInstance
-) => {
-  // const moves = chess.moves({ square: from });
-
-  const IsMoveLegal = chess.move({ from, to });
-  if (!IsMoveLegal) {
-    console.log('Not a valid movee');
-    return { ...state, error: 'not a valid move' };
-  }
-  return {
-    ...state,
-    isCheckmate: chess.in_checkmate(),
-    board: addBoardPositions(chess.board()),
-  };
 };
 
 export const pieceToUnicode = {

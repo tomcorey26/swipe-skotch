@@ -33,6 +33,7 @@ export const Piece: React.FC<PieceProps> = ({
       ref={drag}
       style={{
         cursor: isDragging ? 'grabbing' : 'grab',
+        opacity: isDragging ? 0 : 1,
       }}
     >
       <h1

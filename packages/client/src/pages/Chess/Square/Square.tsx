@@ -2,7 +2,9 @@ import React from 'react';
 import './Square.scss';
 import { useDrop } from 'react-dnd';
 import { SquareLabel } from '../../../Types';
-import { useChessDispatch } from '../context';
+import { useChessDispatch } from '../../../context/chess';
+import { useSocketIoContext } from '../../../context/socketIO';
+import { socketEvents } from '@skotch/common';
 
 interface SquareProps {
   color: string;
@@ -15,14 +17,20 @@ export const Square: React.FC<SquareProps> = ({
   position,
 }) => {
   const dispatch = useChessDispatch();
+  const { socket } = useSocketIoContext();
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: 'piece',
-    drop: (piece, blah) =>
+    drop: (_, draggable) => {
+      const from = draggable.getItem().position;
+      const to = position;
       dispatch({
         type: 'move_piece',
-        payload: { from: blah.getItem().position, to: position },
-      }),
+        payload: { from, to },
+      });
+      socket.emit(socketEvents.MY_MOVE, { from, to });
+    },
+    canDrop: (_, mon) => mon.getItem().position !== position,
     collect: (mon) => ({
       isOver: !!mon.isOver(),
       canDrop: !!mon.canDrop(),
@@ -34,7 +42,7 @@ export const Square: React.FC<SquareProps> = ({
       className="square"
       ref={drop}
       style={{
-        backgroundColor: isOver ? 'lightblue' : color,
+        backgroundColor: isOver && canDrop ? 'lightblue' : color,
       }}
     >
       {children}
