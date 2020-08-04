@@ -1,10 +1,12 @@
 import { Socket } from 'socket.io';
 import { formatMessage } from '@skotch/common';
+import ioserver from 'socket.io';
+import { startChessMultiplayer } from './startChessMultiplayer';
 
 const users: any = {};
 
 const botName: string = 'TomCord Bot';
-const initTextChat = (socket: Socket, io: any) => {
+const initTextChat = (socket: Socket, io: ioserver.Server) => {
   // messages
   socket.emit('message', formatMessage(botName, 'Welcome to Tom Cord!'));
   //socket.broadcast: emits to all clients except for the client connecting
@@ -20,7 +22,7 @@ const initTextChat = (socket: Socket, io: any) => {
   });
 };
 
-const initVideoChat = (socket: Socket, io: any) => {
+const initVideoChat = (socket: Socket, io: ioserver.Server) => {
   //video chat start
   socket.on('callUser', (data) => {
     //io to lets you only emit something to the user with the passed socket id
@@ -36,7 +38,7 @@ const initVideoChat = (socket: Socket, io: any) => {
   });
 };
 
-export const startChatConnection = (io: any) => {
+export const startConnection = (io: ioserver.Server) => {
   io.on('connection', (socket: Socket) => {
     if (!users[socket.id]) {
       users[socket.id] = socket.id;
@@ -49,6 +51,9 @@ export const startChatConnection = (io: any) => {
 
     //video chat logic
     initVideoChat(socket, io);
+
+    //chess logic
+    startChessMultiplayer(socket);
 
     socket.on('disconnect', () => {
       delete users[socket.id];

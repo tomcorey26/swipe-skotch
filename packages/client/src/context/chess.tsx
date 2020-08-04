@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChessInstance } from 'chess.js';
-import { addBoardPositions, movePiece } from '../utils';
+import { addBoardPositions } from '../utils';
 import { ChessBoard, SquareLabel } from '../Types';
 
 type Action =
@@ -19,6 +19,7 @@ export type State = {
   chess: ChessInstance;
   error: string;
   captured: boolean;
+  lastMove: { from: SquareLabel; to: SquareLabel } | null;
 };
 
 type ChessProviderProps = { children: React.ReactNode };
@@ -28,6 +29,33 @@ const ChessStateContext = React.createContext<State | undefined>(undefined);
 const ChessDispatchContext = React.createContext<Dispatch | undefined>(
   undefined
 );
+
+const movePiece = (
+  from: SquareLabel,
+  to: SquareLabel,
+  state: State,
+  chess: ChessInstance
+) => {
+  // const moves = chess.moves({ square: from });
+
+  const IsPromotion = chess.move({ from, to, promotion: 'q' });
+  const IsMoveLegal = chess.move({ from, to });
+  if (!IsMoveLegal && !IsPromotion) {
+    console.log('Not a valid movee');
+    return { ...state, error: 'not a valid move' };
+  }
+
+  const move = IsMoveLegal ? IsMoveLegal : IsPromotion;
+  return {
+    ...state,
+    lastMove: { from, to },
+    isCheckmate: chess.in_checkmate(),
+    isCheck: chess.in_check(),
+    board: addBoardPositions(chess.board()),
+    captured: !!move?.captured,
+  };
+};
+
 function chessReducer(state: State, action: Action) {
   switch (action.type) {
     case 'set_board': {
@@ -37,7 +65,6 @@ function chessReducer(state: State, action: Action) {
       return { ...state, isCheckmate: true };
     }
     case 'move_piece': {
-      console.log(action.payload);
       return movePiece(action.payload.from, action.payload.to, state, chess);
     }
     default: {
@@ -57,6 +84,7 @@ function ChessProvider({ children }: ChessProviderProps) {
     isCheck: false,
     error: '',
     captured: false,
+    lastMove: null,
   });
   return (
     <ChessStateContext.Provider value={state}>

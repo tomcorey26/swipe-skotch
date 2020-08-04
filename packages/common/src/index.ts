@@ -12,4 +12,9 @@ export const formatMessage = (
   };
 };
 
+export const socketEvents = {
+  ENEMY_MOVE: 'enemyMove',
+  MY_MOVE: 'chessMove',
+};
+
 export { userMessage };
