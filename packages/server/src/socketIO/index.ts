@@ -1,2 +1,2 @@
-export * from './startChatConnection';
+export * from './startConnection';
 export * from './startChessMultiplayer';
