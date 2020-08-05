@@ -35,7 +35,6 @@ export const VideoChat: React.FC<VideoChatProps> = ({ children }) => {
       setReceivingCall(true);
       setCaller(data.from);
       setCallerSignal(data.signal);
-      console.log('data form hey', data);
     });
   }, []);
 
@@ -119,7 +118,7 @@ export const VideoChat: React.FC<VideoChatProps> = ({ children }) => {
   if (receivingCall) {
     incomingCall = (
       <div>
-        <h1>{caller} is calling you</h1>
+        <h1>Accept Video Chat</h1>
         <button onClick={acceptCall}>Accept</button>
       </div>
     );
@@ -138,7 +137,7 @@ export const VideoChat: React.FC<VideoChatProps> = ({ children }) => {
 
           return (
             <button key={i} onClick={() => callPeer(id)}>
-              Call {id}
+              Enable Video chat
             </button>
           );
         })}

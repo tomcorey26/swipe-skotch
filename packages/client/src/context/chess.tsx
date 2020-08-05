@@ -20,6 +20,7 @@ export type State = {
   error: string;
   captured: boolean;
   lastMove: { from: SquareLabel; to: SquareLabel } | null;
+  userCount: number;
 };
 
 type ChessProviderProps = { children: React.ReactNode };
@@ -85,6 +86,7 @@ function ChessProvider({ children }: ChessProviderProps) {
     error: '',
     captured: false,
     lastMove: null,
+    userCount: 0,
   });
   return (
     <ChessStateContext.Provider value={state}>

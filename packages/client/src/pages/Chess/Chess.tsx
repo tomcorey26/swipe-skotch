@@ -10,18 +10,23 @@ import { useSocketIoContext } from '../../context/socketIO';
 import { VideoChat } from '../../components/VideoChat/VideoChat';
 import { socketEvents } from '@skotch/common';
 import { ChessMove } from '@skotch/common/dist/Types';
+import { useParams, useHistory } from 'react-router-dom';
 
 export const ChessGame: React.FC = () => {
   const { board, isCheckmate, playerColor } = useChessState();
   const dispatch = useChessDispatch();
   const { socket } = useSocketIoContext();
   usePieceSound();
+  let { roomId } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
+    socket.emit(socketEvents.JOIN_ROOM, roomId);
     socket.on(socketEvents.ENEMY_MOVE, (move: ChessMove) => {
       dispatch({ type: 'move_piece', payload: move });
     });
-  }, [socket, dispatch]);
+    socket.on(socketEvents.LOBBY_FULL, () => history.push('/'));
+  }, [socket, dispatch, roomId, history]);
 
   return (
     <div className="container">

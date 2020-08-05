@@ -15,5 +15,10 @@ exports.formatMessage = (username, message) => {
 exports.socketEvents = {
     ENEMY_MOVE: 'enemyMove',
     MY_MOVE: 'chessMove',
+    JOIN_ROOM: 'join-room',
+    USER_CONNECTED: 'user-connected',
+    CONNECT_PEER: 'connect_peer',
+    CONNECT_REQUEST: 'connect_request',
+    LOBBY_FULL: 'lobby-full',
 };
 //# sourceMappingURL=index.js.map

@@ -4,6 +4,7 @@ import './Header.scss';
 // import them
 import Logo from '../../assets/logo-white.png';
 import { useHistory } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 interface HeaderProps {}
 
@@ -24,7 +25,7 @@ export const Header: React.FC<HeaderProps> = ({}) => {
         </h1>
 
         <button
-          onClick={() => router.push('/chess')}
+          onClick={() => router.push(`/chess/${uuidv4()}`)}
           className="btn btn-white btn-animated"
         >
           Play Now

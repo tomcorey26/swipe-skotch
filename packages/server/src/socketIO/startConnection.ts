@@ -1,5 +1,4 @@
 import { Socket } from 'socket.io';
-import { formatMessage } from '@skotch/common';
 import ioserver from 'socket.io';
 import { startChessMultiplayer } from './startChessMultiplayer';
 import { initTextChat } from './initTextChat';
@@ -22,11 +21,10 @@ export const startConnection = (io: ioserver.Server) => {
     initVideoChat(socket, io);
 
     //chess logic
-    startChessMultiplayer(socket);
+    startChessMultiplayer(socket, io);
 
     socket.on('disconnect', () => {
       delete users[socket.id];
-      io.emit('message', formatMessage('TomCord Bot', 'A user disconnected'));
     });
   });
 };

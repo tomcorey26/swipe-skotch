@@ -1,8 +1,9 @@
 .video-frame {
   height: 100px;
-  width: 100px;
+  width: 180px;
 }
 video {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
