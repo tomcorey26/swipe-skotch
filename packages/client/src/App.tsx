@@ -44,7 +44,7 @@ function App() {
         <Route exact path="/" component={Home} />
         <ChessProvider>
           <SocketIoProvider>
-            <Route path="/chess" component={ChessGame} />
+            <Route path="/chess/:roomId" component={ChessGame} />
           </SocketIoProvider>
         </ChessProvider>
         {/* <Route path="/chat" component={Chat} /> */}

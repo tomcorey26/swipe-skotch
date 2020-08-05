@@ -1,6 +1,7 @@
 import { SyntheticEvent, useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import { userMessage } from '@skotch/common';
+import { useParams } from 'react-router-dom';
 
 const socket = socketIOClient(process.env.REACT_APP_SERVER_URL as string);
 
@@ -29,10 +30,11 @@ export const useSocketIO = (): SocketProps => {
 export const useSocketTextChat = (socket: SocketIOClient.Socket) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<userMessage[]>([]);
+  let { roomId } = useParams();
 
   const emitMessage = (e: SyntheticEvent) => {
     e.preventDefault();
-    socket.emit('message', input);
+    socket.emit('message', { input, roomId });
     setInput('');
   };
 

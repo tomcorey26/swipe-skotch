@@ -15,6 +15,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/simple-peer": "^9.6.0",
     "@types/socket.io-client": "^1.4.33",
+    "@types/uuid": "^8.0.0",
     "chess.js": "^0.11.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
@@ -25,7 +26,8 @@
     "react-scripts": "3.4.1",
     "simple-peer": "^9.7.2",
     "socket.io-client": "^2.3.0",
-    "typescript": "~3.8.3"
+    "typescript": "~3.8.3",
+    "uuid": "^8.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

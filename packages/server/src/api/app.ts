@@ -1,6 +1,6 @@
 import express, { Response, Request } from 'express';
 import ioserver from 'socket.io';
-import { startConnection } from '../socketIO/startChatConnection';
+import { startConnection } from '../socketIO/startConnection';
 import session, { Store } from 'express-session';
 import cors from 'cors';
 import { User } from '../entity/User';
