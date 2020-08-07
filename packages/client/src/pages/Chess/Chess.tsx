@@ -31,6 +31,9 @@ export const ChessGame: React.FC = () => {
   return (
     <div className="container">
       <div className="chess">
+        <div className="spectators">
+          <div className="spectator"></div>
+        </div>
         <VideoChat>
           {isCheckmate && <h1 style={{ color: 'green' }}> Check mate bitch</h1>}
           {/* <button onClick={playGame}> Simulate a game!</button> */}

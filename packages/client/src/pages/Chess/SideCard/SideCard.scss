@@ -2,59 +2,10 @@
   position: relative;
   background-color: white;
   width: 500px;
-  height: 50vh;
-}
+  height: 80vh;
 
-.chat-log {
-  overflow: auto;
-  max-height: 40vh;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  .message-list {
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    padding-inline-start: 0;
-
-    li {
-      max-width: 30%;
-      text-decoration: none;
-      display: inline-block;
-      padding: 8px;
-      margin: 1px 0 1px 0;
-      border-radius: 15px;
-    }
-
-    .from-me {
-      background: lightblue;
-      color: white;
-      align-self: flex-end;
-    }
-
-    .to-me {
-      background: hsl(220, 12%, 95%);
-      color: black;
-      align-self: flex-start;
-    }
-  }
-}
-.chat-input {
-  background: var(--white);
-  z-index: 5;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 8px;
-  #vid-chat-input {
-    width: 70%;
-    background-color: var(--grey);
-    &:focus {
-      outline: none;
-    }
+  .action-section {
+    height: 50%;
+    background-color: burlywood;
   }
 }
