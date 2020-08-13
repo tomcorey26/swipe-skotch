@@ -3,10 +3,11 @@ import './App.scss';
 import { Chat } from './components/Chat/Chat';
 import { Navbar } from './components/Navbar/Navbar';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { ChessGame } from './pages/Chess/Chess';
+import { Chess } from './pages/Chess/Chess';
 import { Home } from './pages/Home/Home';
 import { ChessProvider } from './context/chess';
 import { SocketIoProvider } from './context/socketIO';
+import { Game } from './pages/Game/Game';
 
 const LoginPage = () => {
   return (
@@ -42,11 +43,9 @@ function App() {
       {/* <Navbar /> */}
       <Router>
         <Route exact path="/" component={Home} />
-        <ChessProvider>
-          <SocketIoProvider>
-            <Route path="/chess/:roomId" component={ChessGame} />
-          </SocketIoProvider>
-        </ChessProvider>
+        <SocketIoProvider>
+          <Route path="/game/:roomId" component={Game} />
+        </SocketIoProvider>
         {/* <Route path="/chat" component={Chat} /> */}
         <Route path="/login" component={LoginPage} />
       </Router>

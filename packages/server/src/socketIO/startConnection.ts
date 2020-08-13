@@ -3,6 +3,7 @@ import ioserver from 'socket.io';
 import { startChessMultiplayer } from './startChessMultiplayer';
 import { initTextChat } from './initTextChat';
 import { initVideoChat } from './initVideoChat';
+import { initLobby } from './initLobby';
 
 const users: any = {};
 
@@ -20,8 +21,11 @@ export const startConnection = (io: ioserver.Server) => {
     //video chat logic
     initVideoChat(socket, io);
 
+    //lobby logic
+    initLobby(socket, io);
+
     //chess logic
-    startChessMultiplayer(socket, io);
+    startChessMultiplayer(socket);
 
     socket.on('disconnect', () => {
       delete users[socket.id];
