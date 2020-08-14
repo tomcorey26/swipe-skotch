@@ -24,21 +24,15 @@ export const Chess: React.FC = () => {
   }, [socket, dispatch]);
 
   return (
-    <div className="container">
-      <div className="chess">
-        <div className="spectators">
-          <div className="spectator"></div>
-        </div>
-        <VideoChat>
-          {isCheckmate && <h1 style={{ color: 'green' }}> Check mate bitch</h1>}
-          {/* <button onClick={playGame}> Simulate a game!</button> */}
+    <div className="chess">
+      <VideoChat>
+        {isCheckmate && <h1 style={{ color: 'green' }}> Check mate bitch</h1>}
+        {/* <button onClick={playGame}> Simulate a game!</button> */}
 
-          <DndProvider backend={HTML5Backend}>
-            <Board board={board} playerColor={playerColor} />
-          </DndProvider>
-        </VideoChat>
-        <SideCard />
-      </div>
+        <DndProvider backend={HTML5Backend}>
+          <Board board={board} playerColor={playerColor} />
+        </DndProvider>
+      </VideoChat>
     </div>
   );
 };
