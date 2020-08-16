@@ -1,12 +1,18 @@
 import ioserver, { Socket } from 'socket.io';
 import { socketEvents, formatMessage } from '@skotch/common';
 
-const MAX_LOBBY_CLIENTS = 2;
+interface SignalData {
+  userToSignal: string;
+  signal: any;
+  callerID: string;
+}
+const MAX_LOBBY_CLIENTS = 4;
 export const initLobby = (socket: Socket, io: ioserver.Server) => {
   socket.on(socketEvents.JOIN_ROOM, (roomId) => {
     let connectedClients;
-    if (io.sockets.adapter.rooms[roomId]) {
-      connectedClients = io.sockets.adapter.rooms[roomId].length;
+    const room = io.sockets.adapter.rooms[roomId];
+    if (room) {
+      connectedClients = room.length;
     }
 
     if (connectedClients === MAX_LOBBY_CLIENTS) {
@@ -19,8 +25,26 @@ export const initLobby = (socket: Socket, io: ioserver.Server) => {
           'message',
           formatMessage('Bot', 'a user has joined the lobby')
         );
-
-      socket.to(roomId).broadcast.emit(socketEvents.USER_CONNECTED, socket.id);
     }
+
+    const connectedIDs = Object.keys(
+      io.sockets.adapter.rooms[roomId].sockets
+    ).filter((id) => id !== socket.id);
+    socket.emit(socketEvents.ALL_USERS, connectedIDs);
+  });
+
+  socket.on(socketEvents.SEND_SIGNAL, (payload: SignalData) => {
+    console.log('sent signal');
+    io.to(payload.userToSignal).emit(socketEvents.USER_JOINED, {
+      signal: payload.signal,
+      callerID: payload.callerID,
+    });
+  });
+
+  socket.on(socketEvents.RETURN_SIGNAL, (payload) => {
+    io.to(payload.callerID).emit(socketEvents.RECIEVE_RETURN_SIGNAL, {
+      signal: payload.signal,
+      id: socket.id,
+    });
   });
 };

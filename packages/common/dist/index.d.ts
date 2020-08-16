@@ -8,5 +8,11 @@ export declare const socketEvents: {
     CONNECT_PEER: string;
     CONNECT_REQUEST: string;
     LOBBY_FULL: string;
+    ALL_USERS: string;
+    SEND_SIGNAL: string;
+    RETURN_SIGNAL: string;
+    USER_JOINED: string;
+    RECIEVE_RETURN_SIGNAL: string;
+    DISCONNECT: string;
 };
 export { userMessage };

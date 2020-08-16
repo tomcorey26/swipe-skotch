@@ -25,14 +25,14 @@ export const Chess: React.FC = () => {
 
   return (
     <div className="chess">
-      <VideoChat>
-        {isCheckmate && <h1 style={{ color: 'green' }}> Check mate bitch</h1>}
-        {/* <button onClick={playGame}> Simulate a game!</button> */}
+      {/* <VideoChat> */}
+      {isCheckmate && <h1 style={{ color: 'green' }}> Check mate bitch</h1>}
+      {/* <button onClick={playGame}> Simulate a game!</button> */}
 
-        <DndProvider backend={HTML5Backend}>
-          <Board board={board} playerColor={playerColor} />
-        </DndProvider>
-      </VideoChat>
+      <DndProvider backend={HTML5Backend}>
+        <Board board={board} playerColor={playerColor} />
+      </DndProvider>
+      {/* </VideoChat> */}
     </div>
   );
 };
