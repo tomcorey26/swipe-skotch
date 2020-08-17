@@ -26,6 +26,7 @@ export const socketEvents = {
   USER_JOINED: 'user-joined',
   RECIEVE_RETURN_SIGNAL: 'recieve-return-signal',
   DISCONNECT: 'disconnect',
+  USER_DISCONNECT: 'user-disconnect',
 };
 
 export { userMessage };

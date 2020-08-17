@@ -27,13 +27,16 @@ export const Game: React.FC<GameProps> = ({}) => {
   let { roomId } = useParams();
   const history = useHistory();
   const userVideo = useRef<any>();
-  const [peers, setPeers] = useState<any[]>([]);
+  const [peers, setPeers] = useState<Peer[]>([]);
   const peersRef = useRef<Peer[]>([]);
+  const streamRef = useRef<MediaStream>();
 
   useEffect(() => {
     socket.on(socketEvents.LOBBY_FULL, () => {
-      console.log('lobby full');
-      // history.push('/')
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+      }
+      history.push('/');
     });
   }, [socket, history]);
 
@@ -41,6 +44,7 @@ export const Game: React.FC<GameProps> = ({}) => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((stream) => {
+        streamRef.current = stream;
         if (userVideo.current) {
           userVideo.current.srcObject = stream;
         }
@@ -60,20 +64,19 @@ export const Game: React.FC<GameProps> = ({}) => {
               peerID: userID,
               peer,
             });
-            peers.push(peer);
+            peers.push({ peer, peerID: userID });
           });
           setPeers(peers);
         });
 
         //new user joined logic
         socket.on(socketEvents.USER_JOINED, (payload: any) => {
-          console.log('user joined');
           const peer = addPeer(payload.signal, payload.callerID, stream);
           peersRef.current.push({
             peerID: payload.callerID,
             peer,
           });
-          setPeers((users) => [...users, peer]);
+          setPeers((users) => [...users, { peer, peerID: payload.callerID }]);
         });
 
         // Recieving finished handshake
@@ -82,6 +85,10 @@ export const Game: React.FC<GameProps> = ({}) => {
           if (item) {
             item.peer.signal(payload.signal);
           }
+        });
+
+        socket.on(socketEvents.USER_DISCONNECT, (userID: string) => {
+          removePeer(userID);
         });
       });
 
@@ -99,11 +106,11 @@ export const Game: React.FC<GameProps> = ({}) => {
       stream,
     });
 
-    console.log('create peer function');
     //after peer is constructed it emits this signal event
+    // after handshake is accepted it emits this event again
+    // make sure it only fires once to prevent infinite loop
     let signalCount = 0;
     peer.on('signal', (signal) => {
-      console.log('there is signal');
       if (!signalCount) {
         socket.emit(socketEvents.SEND_SIGNAL, {
           userToSignal,
@@ -136,6 +143,17 @@ export const Game: React.FC<GameProps> = ({}) => {
     return peer;
   }
 
+  function removePeer(userID: string) {
+    const found = peersRef.current.find(({ peerID }) => peerID === userID);
+    if (found) {
+      found.peer.destroy();
+    }
+    peersRef.current = peersRef.current.filter(
+      ({ peerID }) => peerID !== userID
+    );
+    setPeers(peers.filter(({ peerID }) => peerID !== userID));
+  }
+
   return (
     <div className="container">
       <div className="game">
@@ -147,8 +165,8 @@ export const Game: React.FC<GameProps> = ({}) => {
             ref={userVideo}
             className="spectator"
           />
-          {peers.map((peer, i) => {
-            return <Video key={i} peer={peer} />;
+          {peers.map((item, i) => {
+            return <Video key={i} peer={item.peer} />;
           })}
         </div>
         <Switch>

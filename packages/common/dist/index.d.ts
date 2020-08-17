@@ -14,5 +14,6 @@ export declare const socketEvents: {
     USER_JOINED: string;
     RECIEVE_RETURN_SIGNAL: string;
     DISCONNECT: string;
+    USER_DISCONNECT: string;
 };
 export { userMessage };

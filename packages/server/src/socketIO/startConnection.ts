@@ -4,6 +4,7 @@ import { startChessMultiplayer } from './startChessMultiplayer';
 import { initTextChat } from './initTextChat';
 import { initVideoChat } from './initVideoChat';
 import { initLobby } from './initLobby';
+import { socketEvents } from '@skotch/common';
 
 const users: any = {};
 
@@ -27,6 +28,13 @@ export const startConnection = (io: ioserver.Server) => {
     //chess logic
     startChessMultiplayer(socket);
 
+    socket.on('disconnecting', () => {
+      //have to filter bc it includes socket id as rooms
+      const roomID = Object.keys(socket.rooms).filter(
+        (item) => item != socket.id
+      )[0];
+      socket.to(roomID).emit(socketEvents.USER_DISCONNECT, socket.id);
+    });
     socket.on('disconnect', () => {
       delete users[socket.id];
     });
