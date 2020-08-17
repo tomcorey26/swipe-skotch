@@ -25,7 +25,7 @@ export const Header: React.FC<HeaderProps> = ({}) => {
         </h1>
 
         <button
-          onClick={() => router.push(`/chess/${uuidv4()}`)}
+          onClick={() => router.push(`/game/${uuidv4()}/chess`)}
           className="btn btn-white btn-animated"
         >
           Play Now

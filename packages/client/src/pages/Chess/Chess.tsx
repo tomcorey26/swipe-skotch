@@ -10,37 +10,29 @@ import { useSocketIoContext } from '../../context/socketIO';
 import { VideoChat } from '../../components/VideoChat/VideoChat';
 import { socketEvents } from '@skotch/common';
 import { ChessMove } from '@skotch/common/dist/Types';
-import { useParams, useHistory } from 'react-router-dom';
 
-export const ChessGame: React.FC = () => {
+export const Chess: React.FC = () => {
   const { board, isCheckmate, playerColor } = useChessState();
   const dispatch = useChessDispatch();
   const { socket } = useSocketIoContext();
   usePieceSound();
-  let { roomId } = useParams();
-  const history = useHistory();
 
   useEffect(() => {
-    socket.emit(socketEvents.JOIN_ROOM, roomId);
     socket.on(socketEvents.ENEMY_MOVE, (move: ChessMove) => {
       dispatch({ type: 'move_piece', payload: move });
     });
-    socket.on(socketEvents.LOBBY_FULL, () => history.push('/'));
-  }, [socket, dispatch, roomId, history]);
+  }, [socket, dispatch]);
 
   return (
-    <div className="container">
-      <div className="chess">
-        <VideoChat>
-          {isCheckmate && <h1 style={{ color: 'green' }}> Check mate bitch</h1>}
-          {/* <button onClick={playGame}> Simulate a game!</button> */}
+    <div className="chess">
+      {/* <VideoChat> */}
+      {isCheckmate && <h1 style={{ color: 'green' }}> Check mate bitch</h1>}
+      {/* <button onClick={playGame}> Simulate a game!</button> */}
 
-          <DndProvider backend={HTML5Backend}>
-            <Board board={board} playerColor={playerColor} />
-          </DndProvider>
-        </VideoChat>
-        <SideCard />
-      </div>
+      <DndProvider backend={HTML5Backend}>
+        <Board board={board} playerColor={playerColor} />
+      </DndProvider>
+      {/* </VideoChat> */}
     </div>
   );
 };
