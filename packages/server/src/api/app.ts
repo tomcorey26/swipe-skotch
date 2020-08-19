@@ -1,17 +1,16 @@
 import express, { Response, Request } from 'express';
 import ioserver from 'socket.io';
 import { startConnection } from '../socketIO/startConnection';
-import session, { Store } from 'express-session';
 import cors from 'cors';
 import { User } from '../entity/User';
-import { IN_PROD, SESSION_OPTIONS } from '../config';
+import { IN_PROD } from '../config';
 import { register, login } from './routes';
 import { notFound, serverError } from './middleware';
 // set up session
 // can make it so cookies can not be accesable client side through javascript
 // this is the default behavior for session
 
-export const createApp = (store: Store) => {
+export const createApp = () => {
   const app = express();
   //set up express app
   const http = require('http');
@@ -28,8 +27,6 @@ export const createApp = (store: Store) => {
       credentials: true,
     })
   );
-
-  app.use(session({ ...SESSION_OPTIONS, store: store }));
 
   startConnection(io);
 
