@@ -7,7 +7,9 @@ interface SideCardProps {}
 export const SideCard: React.FC<SideCardProps> = ({}) => {
   return (
     <div className="side-card">
-      <div className="action-section"></div>
+      <div className="action-section">
+        <div className="btn-primary">Start</div>
+      </div>
       <ChatMessages />
     </div>
   );
