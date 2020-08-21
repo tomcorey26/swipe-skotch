@@ -27,6 +27,18 @@ export const socketEvents = {
   RECIEVE_RETURN_SIGNAL: 'recieve-return-signal',
   DISCONNECT: 'disconnect',
   USER_DISCONNECT: 'user-disconnect',
+  START_GAME: 'start-game',
+  BEGIN_CHESS: 'begin-chess',
 };
+
+export enum GameType {
+  CHESS,
+  CHAT,
+}
+
+export interface ChessPlayer {
+  id: string;
+  color: 'b' | 'w';
+}
 
 export { userMessage };

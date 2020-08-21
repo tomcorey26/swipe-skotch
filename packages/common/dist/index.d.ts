@@ -15,5 +15,15 @@ export declare const socketEvents: {
     RECIEVE_RETURN_SIGNAL: string;
     DISCONNECT: string;
     USER_DISCONNECT: string;
+    START_GAME: string;
+    BEGIN_CHESS: string;
 };
+export declare enum GameType {
+    CHESS = 0,
+    CHAT = 1
+}
+export interface ChessPlayer {
+    id: string;
+    color: 'b' | 'w';
+}
 export { userMessage };
