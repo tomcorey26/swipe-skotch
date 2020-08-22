@@ -3,6 +3,7 @@ import './SideCard.scss';
 import { ChatMessages } from '../../../components/ChatMessages/ChatMessages';
 import { useSocketIO } from '../../../hooks';
 import { socketEvents, GameType } from '@skotch/common';
+import { CopyLink } from '../../../components/CopyLink/CopyLink';
 
 interface SideCardProps {
   connectedCount: number;
@@ -32,6 +33,7 @@ export const SideCard: React.FC<SideCardProps> = ({
             Start
           </div>
         )}
+        {connectedCount < 1 && <CopyLink />}
       </div>
       <ChatMessages />
     </div>
