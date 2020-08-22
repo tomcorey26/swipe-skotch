@@ -1,5 +1,10 @@
 import ioserver, { Socket } from 'socket.io';
-import { socketEvents, formatMessage } from '@skotch/common';
+import {
+  socketEvents,
+  formatMessage,
+  GameType,
+  ChessPlayer,
+} from '@skotch/common';
 
 interface SignalData {
   userToSignal: string;
@@ -46,5 +51,30 @@ export const initLobby = (socket: Socket, io: ioserver.Server) => {
       signal: payload.signal,
       id: socket.id,
     });
+  });
+
+  socket.on(socketEvents.START_GAME, (gameType: GameType, roomId: string) => {
+    switch (gameType) {
+      case GameType.CHESS:
+        const connectedIDs = Object.keys(
+          io.sockets.adapter.rooms[roomId].sockets
+        );
+        const player1: ChessPlayer = {
+          id: connectedIDs[0],
+          color: 'w',
+        };
+        const player2: ChessPlayer = {
+          id: connectedIDs[1],
+          color: 'b',
+        };
+
+        io.in(roomId).emit(socketEvents.BEGIN_CHESS, {
+          players: [player1, player2],
+        });
+        break;
+      default:
+        console.log('game type not found');
+        return;
+    }
   });
 };

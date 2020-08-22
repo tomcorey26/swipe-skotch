@@ -27,9 +27,10 @@ export const Game: React.FC<GameProps> = ({}) => {
   let { roomId } = useParams();
   const history = useHistory();
   const userVideo = useRef<any>();
-  const [peers, setPeers] = useState<Peer[]>([]);
   const peersRef = useRef<Peer[]>([]);
   const streamRef = useRef<MediaStream>();
+  const [peers, setPeers] = useState<Peer[]>([]);
+  const [gameActive, setGameActive] = useState<boolean>(false);
 
   useEffect(() => {
     socket.on(socketEvents.LOBBY_FULL, () => {
@@ -176,11 +177,16 @@ export const Game: React.FC<GameProps> = ({}) => {
 
           <Route path={`${path}/chess`}>
             <ChessProvider>
-              <Chess />
+              <Chess setGameActive={setGameActive} />
             </ChessProvider>
           </Route>
         </Switch>
-        <SideCard />
+        <SideCard
+          connectedCount={peers.length}
+          roomId={roomId}
+          gameActive={gameActive}
+          setGameActive={setGameActive}
+        />
       </div>
     </div>
   );

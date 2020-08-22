@@ -131,7 +131,7 @@ export const VideoChat: React.FC<VideoChatProps> = ({ children }) => {
       <div className="video-frame">{PartnerVideo}</div>
       <div className="disconnect">
         {Object.keys(users).map((id, i) => {
-          if (id === yourID) {
+          if (id === yourID.current) {
             return null;
           }
 

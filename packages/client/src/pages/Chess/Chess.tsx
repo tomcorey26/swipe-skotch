@@ -1,27 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Dispatch, SetStateAction } from 'react';
 import './Chess.scss';
 import { Board } from './Board/Board';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useChessState, useChessDispatch } from '../../context/chess';
 import { usePieceSound } from '../../hooks';
-import { SideCard } from './SideCard/SideCard';
 import { useSocketIoContext } from '../../context/socketIO';
-import { VideoChat } from '../../components/VideoChat/VideoChat';
-import { socketEvents } from '@skotch/common';
+import { socketEvents, ChessPlayer } from '@skotch/common';
 import { ChessMove } from '@skotch/common/dist/Types';
 
-export const Chess: React.FC = () => {
+interface ChessProps {
+  setGameActive: Dispatch<SetStateAction<boolean>>;
+}
+export const Chess: React.FC<ChessProps> = ({ setGameActive }) => {
   const { board, isCheckmate, playerColor } = useChessState();
   const dispatch = useChessDispatch();
-  const { socket } = useSocketIoContext();
+  const { socket, yourID } = useSocketIoContext();
   usePieceSound();
 
   useEffect(() => {
     socket.on(socketEvents.ENEMY_MOVE, (move: ChessMove) => {
+      console.log('enemy move');
       dispatch({ type: 'move_piece', payload: move });
     });
   }, [socket, dispatch]);
+
+  useEffect(() => {
+    socket.on(socketEvents.BEGIN_CHESS, (data: { players: ChessPlayer[] }) => {
+      setGameActive(true);
+      dispatch({
+        type: 'begin_game',
+        payload: { players: data.players, socketId: yourID.current },
+      });
+    });
+  }, []);
 
   return (
     <div className="chess">

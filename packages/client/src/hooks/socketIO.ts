@@ -1,4 +1,10 @@
-import { SyntheticEvent, useState, useEffect } from 'react';
+import {
+  SyntheticEvent,
+  useState,
+  useEffect,
+  useRef,
+  MutableRefObject,
+} from 'react';
 import socketIOClient from 'socket.io-client';
 import { userMessage } from '@skotch/common';
 import { useParams } from 'react-router-dom';
@@ -7,11 +13,11 @@ const socket = socketIOClient(process.env.REACT_APP_SERVER_URL as string);
 
 export interface SocketProps {
   socket: SocketIOClient.Socket;
-  yourID: string;
+  yourID: MutableRefObject<string>;
   users: any;
 }
 export const useSocketIO = (): SocketProps => {
-  const [yourID, setYourID] = useState('');
+  const yourID = useRef<string>('');
   const [users, setUsers] = useState({});
 
   useEffect(() => {
@@ -20,7 +26,7 @@ export const useSocketIO = (): SocketProps => {
     });
 
     socket.on('yourId', (data: any) => {
-      setYourID(data);
+      yourID.current = data;
     });
   }, []);
 

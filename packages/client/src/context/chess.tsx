@@ -2,11 +2,17 @@ import React from 'react';
 import { ChessInstance } from 'chess.js';
 import { addBoardPositions } from '../utils';
 import { ChessBoard, SquareLabel } from '../Types';
+import { ChessPlayer } from '@skotch/common';
+const chessReq: any = require('chess.js');
 
 type Action =
   | { type: 'set_board'; payload: ChessBoard }
   | { type: 'set_checkmate' }
-  | { type: 'move_piece'; payload: { from: SquareLabel; to: SquareLabel } };
+  | { type: 'move_piece'; payload: { from: SquareLabel; to: SquareLabel } }
+  | {
+      type: 'begin_game';
+      payload: { players: ChessPlayer[]; socketId: string };
+    };
 
 type Dispatch = (action: Action) => void;
 
@@ -21,6 +27,8 @@ export type State = {
   captured: boolean;
   lastMove: { from: SquareLabel; to: SquareLabel } | null;
   userCount: number;
+  playerTurn: 0 | 1;
+  players: ChessPlayer[] | null;
 };
 
 type ChessProviderProps = { children: React.ReactNode };
@@ -31,24 +39,25 @@ const ChessDispatchContext = React.createContext<Dispatch | undefined>(
   undefined
 );
 
+const chess: ChessInstance = new chessReq();
+
 const movePiece = (
   from: SquareLabel,
   to: SquareLabel,
-  state: State,
   chess: ChessInstance
 ) => {
   // const moves = chess.moves({ square: from });
-
-  const IsPromotion = chess.move({ from, to, promotion: 'q' });
+  console.log('in move piece', from, to);
   const IsMoveLegal = chess.move({ from, to });
+  const IsPromotion = chess.move({ from, to, promotion: 'q' });
+
   if (!IsMoveLegal && !IsPromotion) {
     console.log('Not a valid movee');
-    return { ...state, error: 'not a valid move' };
+    return { error: 'not a valid move' };
   }
 
   const move = IsMoveLegal ? IsMoveLegal : IsPromotion;
   return {
-    ...state,
     lastMove: { from, to },
     isCheckmate: chess.in_checkmate(),
     isCheck: chess.in_check(),
@@ -57,7 +66,7 @@ const movePiece = (
   };
 };
 
-function chessReducer(state: State, action: Action) {
+const chessReducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'set_board': {
       return { ...state, board: action.payload };
@@ -66,16 +75,33 @@ function chessReducer(state: State, action: Action) {
       return { ...state, isCheckmate: true };
     }
     case 'move_piece': {
-      return movePiece(action.payload.from, action.payload.to, state, chess);
+      console.log('move piece reducer', action.payload.from, action.payload.to);
+      const chessState = movePiece(
+        action.payload.from,
+        action.payload.to,
+        chess
+      );
+      return {
+        ...state,
+        playerTurn: (state.playerTurn === 0 ? 1 : 0) as 0 | 1,
+        ...chessState,
+      };
+    }
+    case 'begin_game': {
+      return {
+        ...state,
+        players: action.payload.players,
+        playerColor: (action.payload.players[1].id === action.payload.socketId
+          ? 'b'
+          : 'w') as 'b' | 'w',
+      };
     }
     default: {
       throw new Error(`Unhandled action type: ${action!.type}`);
     }
   }
-}
+};
 
-const chessReq: any = require('chess.js');
-const chess: ChessInstance = new chessReq();
 function ChessProvider({ children }: ChessProviderProps) {
   const [state, dispatch] = React.useReducer(chessReducer, {
     chess,
@@ -87,6 +113,8 @@ function ChessProvider({ children }: ChessProviderProps) {
     captured: false,
     lastMove: null,
     userCount: 0,
+    playerTurn: 0,
+    players: null,
   });
   return (
     <ChessStateContext.Provider value={state}>

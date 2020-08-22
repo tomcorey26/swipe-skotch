@@ -26,7 +26,6 @@ export const Piece: React.FC<PieceProps> = ({
   });
 
   const isBlack = color === 'b';
-
   return (
     <div
       className="piece"
