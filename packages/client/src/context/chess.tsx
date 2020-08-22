@@ -19,10 +19,10 @@ type Dispatch = (action: Action) => void;
 //player joined?
 export type State = {
   board: any;
+  fen: string;
   playerColor: 'b' | 'w';
   isCheckmate: boolean;
   isCheck: boolean;
-  chess: ChessInstance;
   error: string;
   captured: boolean;
   lastMove: { from: SquareLabel; to: SquareLabel } | null;
@@ -39,15 +39,9 @@ const ChessDispatchContext = React.createContext<Dispatch | undefined>(
   undefined
 );
 
-const chess: ChessInstance = new chessReq();
-
-const movePiece = (
-  from: SquareLabel,
-  to: SquareLabel,
-  chess: ChessInstance
-) => {
+const movePiece = (from: SquareLabel, to: SquareLabel, fen: string) => {
+  const chess: ChessInstance = new chessReq(fen);
   // const moves = chess.moves({ square: from });
-  console.log('in move piece', from, to);
   const IsMoveLegal = chess.move({ from, to });
   const IsPromotion = chess.move({ from, to, promotion: 'q' });
 
@@ -63,6 +57,7 @@ const movePiece = (
     isCheck: chess.in_check(),
     board: addBoardPositions(chess.board()),
     captured: !!move?.captured,
+    fen: chess.fen(),
   };
 };
 
@@ -75,11 +70,10 @@ const chessReducer = (state: State, action: Action) => {
       return { ...state, isCheckmate: true };
     }
     case 'move_piece': {
-      console.log('move piece reducer', action.payload.from, action.payload.to);
       const chessState = movePiece(
         action.payload.from,
         action.payload.to,
-        chess
+        state.fen
       );
       return {
         ...state,
@@ -103,9 +97,10 @@ const chessReducer = (state: State, action: Action) => {
 };
 
 function ChessProvider({ children }: ChessProviderProps) {
+  const chess: ChessInstance = new chessReq();
   const [state, dispatch] = React.useReducer(chessReducer, {
-    chess,
     board: addBoardPositions(chess.board()),
+    fen: chess.fen(),
     playerColor: 'w',
     isCheckmate: false,
     isCheck: false,
