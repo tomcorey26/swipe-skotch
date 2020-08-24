@@ -152,7 +152,7 @@ export const Game: React.FC<GameProps> = ({}) => {
     peersRef.current = peersRef.current.filter(
       ({ peerID }) => peerID !== userID
     );
-    setPeers(peers.filter(({ peerID }) => peerID !== userID));
+    setPeers([...peersRef.current]);
   }
 
   return (
