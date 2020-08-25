@@ -55,7 +55,6 @@ export const Game: React.FC<GameProps> = ({}) => {
 
         //after user has joined room send out peer connect requests
         socket.on(socketEvents.ALL_USERS, (users: string[]) => {
-          console.log('users', users);
           const peers: any[] = [];
 
           // User first joining lobby logic
