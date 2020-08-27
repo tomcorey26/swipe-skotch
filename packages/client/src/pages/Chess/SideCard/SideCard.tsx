@@ -31,8 +31,10 @@ export const SideCard: React.FC<SideCardProps> = ({
               setGameType(Number(e.target.value))
             }
           >
-            {GamesArray.map((game) => (
-              <option value={game.enum}>{game.name}</option>
+            {GamesArray.map((game, i) => (
+              <option key={i} value={game.enum}>
+                {game.name}
+              </option>
             ))}
           </select>
         </div>

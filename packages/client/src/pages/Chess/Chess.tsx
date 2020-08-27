@@ -1,4 +1,4 @@
-import React, { useEffect, Dispatch, SetStateAction } from 'react';
+import React, { useEffect, Dispatch, SetStateAction, useState } from 'react';
 import './Chess.scss';
 import { Board } from './Board/Board';
 import { DndProvider } from 'react-dnd';
@@ -13,14 +13,20 @@ interface ChessProps {
   setGameActive: Dispatch<SetStateAction<boolean>>;
 }
 export const Chess: React.FC<ChessProps> = ({ setGameActive }) => {
-  const { board, isCheckmate, playerColor } = useChessState();
+  const { board, isCheckmate, playerColor, playerTurn } = useChessState();
   const dispatch = useChessDispatch();
   const { socket, yourID } = useSocketIoContext();
+  const [winner, setWinner] = useState<null | 'White' | 'Black'>(null);
   usePieceSound();
 
   useEffect(() => {
     if (isCheckmate) {
       setGameActive(false);
+      if (playerTurn === 0) {
+        setWinner('Black');
+      } else {
+        setWinner('White');
+      }
     }
   }, [isCheckmate, setGameActive]);
 
@@ -44,7 +50,7 @@ export const Chess: React.FC<ChessProps> = ({ setGameActive }) => {
   return (
     <div className="chess">
       {/* <VideoChat> */}
-      {isCheckmate && <h1 style={{ color: 'green' }}> Check mate bitch</h1>}
+      {isCheckmate && <h1 style={{ color: 'green' }}>{winner} Wins!</h1>}
       {/* <button onClick={playGame}> Simulate a game!</button> */}
 
       <DndProvider backend={HTML5Backend}>

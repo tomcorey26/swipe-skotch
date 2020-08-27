@@ -107,7 +107,6 @@ export const Game: React.FC<GameProps> = ({}) => {
 
         // Recieving finished handshake
         socket.on(socketEvents.RECIEVE_RETURN_SIGNAL, (payload: any) => {
-          console.log('foo', payload.name);
           const item = peersRef.current.find((p) => p.peerID === payload.id);
           if (item) {
             item.peer.signal(payload.signal);
