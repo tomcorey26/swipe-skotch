@@ -30,8 +30,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 60px;
-  width: 150px;
   background-color: #85dc;
   color: white;
   border-radius: 10px;
@@ -43,3 +41,14 @@
     transition: 0.5s;
   }
 }
+
+// @mixin reset-button($color: whitesmoke, $borderRad: 11px) {
+//   color: whitesmoke;
+//   border: none;
+//   border-radius: 11px;
+//   &:hover {
+//     cursor: pointer;
+//     background-color: black;
+//     transition: 0.5s;
+//   }
+// }

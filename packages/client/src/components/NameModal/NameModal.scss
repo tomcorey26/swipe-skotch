@@ -1,0 +1,46 @@
+.modal-cover {
+  position: absolute;
+  z-index: 998;
+  background: grey;
+  opacity: 0.6;
+  width: 100vw;
+  height: 100vh;
+}
+
+.name-modal {
+  z-index: 999;
+  position: absolute;
+  background: white;
+  top: calc(50vh - 15vh);
+  left: calc(50vw - 20vw);
+  width: 40vw;
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  animation: fadein 1s;
+
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-input {
+    height: 30px;
+    padding: 5px;
+  }
+  .modal-button {
+    margin-top: 10px;
+    padding: 5px;
+    cursor: pointer;
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

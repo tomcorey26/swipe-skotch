@@ -1,0 +1,26 @@
+$blue: #0b9ed0;
+.copy-link {
+  display: flex;
+  height: 50px;
+  border-radius: 11px;
+  .link-text {
+    padding: 5px;
+    border: none;
+    width: 80%;
+    overflow: hidden;
+    border-radius: inherit;
+    outline: none;
+  }
+  .copy-indicator {
+    outline: none;
+    color: whitesmoke;
+    border: none;
+    width: 20%;
+    border-radius: 0 11px 11px 0;
+    &:hover {
+      opacity: 0.9;
+      transition: 0.5s;
+      cursor: pointer;
+    }
+  }
+}

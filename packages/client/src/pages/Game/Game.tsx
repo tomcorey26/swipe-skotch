@@ -14,22 +14,31 @@ import { socketEvents } from '@skotch/common';
 import { SideCard } from '../Chess/SideCard/SideCard';
 import Peer from 'simple-peer';
 import { Video } from '../../components/Video/Video';
+import { NameModal } from '../../components/NameModal/NameModal';
+import { useLocalStorage } from '../../hooks';
 
 interface GameProps {}
 interface Peer {
   peerID: string;
   peer: any;
+  name: string;
 }
 
 export const Game: React.FC<GameProps> = ({}) => {
   let { path } = useRouteMatch();
-  const { socket } = useSocketIoContext();
+  const { socket, yourID } = useSocketIoContext();
   let { roomId } = useParams();
   const history = useHistory();
   const userVideo = useRef<any>();
-  const [peers, setPeers] = useState<Peer[]>([]);
   const peersRef = useRef<Peer[]>([]);
   const streamRef = useRef<MediaStream>();
+  const [name, setName] = useLocalStorage(roomId, '');
+  const [peers, setPeers] = useState<Peer[]>([]);
+  const [gameActive, setGameActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    socket.emit(socketEvents.NAME_CHANGE, roomId, name, yourID.current);
+  }, [name, socket, roomId, yourID]);
 
   useEffect(() => {
     socket.on(socketEvents.LOBBY_FULL, () => {
@@ -37,6 +46,19 @@ export const Game: React.FC<GameProps> = ({}) => {
         streamRef.current.getTracks().forEach((track) => track.stop());
       }
       history.push('/');
+    });
+
+    socket.on(socketEvents.NAME_CHANGE, (name: string, userId: string) => {
+      console.log('change', name, userId);
+      setPeers((users) =>
+        users.map((u) => {
+          if (u.peerID === userId) {
+            return { ...u, name };
+          }
+
+          return u;
+        })
+      );
     });
   }, [socket, history]);
 
@@ -54,8 +76,7 @@ export const Game: React.FC<GameProps> = ({}) => {
 
         //after user has joined room send out peer connect requests
         socket.on(socketEvents.ALL_USERS, (users: string[]) => {
-          console.log('users', users);
-          const peers: any[] = [];
+          const peers: Peer[] = [];
 
           // User first joining lobby logic
           users.forEach((userID: string) => {
@@ -63,8 +84,9 @@ export const Game: React.FC<GameProps> = ({}) => {
             peersRef.current.push({
               peerID: userID,
               peer,
+              name: '',
             });
-            peers.push({ peer, peerID: userID });
+            peers.push({ peer, peerID: userID, name: '' });
           });
           setPeers(peers);
         });
@@ -75,8 +97,12 @@ export const Game: React.FC<GameProps> = ({}) => {
           peersRef.current.push({
             peerID: payload.callerID,
             peer,
+            name: payload.name,
           });
-          setPeers((users) => [...users, { peer, peerID: payload.callerID }]);
+          setPeers((users) => [
+            ...users,
+            { peer, peerID: payload.callerID, name: payload.name },
+          ]);
         });
 
         // Recieving finished handshake
@@ -85,6 +111,16 @@ export const Game: React.FC<GameProps> = ({}) => {
           if (item) {
             item.peer.signal(payload.signal);
           }
+
+          setPeers((users) =>
+            users.map((u) => {
+              if (u.peerID === payload.id) {
+                return { ...u, name: payload.name };
+              }
+
+              return u;
+            })
+          );
         });
 
         socket.on(socketEvents.USER_DISCONNECT, (userID: string) => {
@@ -116,6 +152,7 @@ export const Game: React.FC<GameProps> = ({}) => {
           userToSignal,
           callerID,
           signal,
+          name,
         });
         signalCount++;
       }
@@ -134,7 +171,7 @@ export const Game: React.FC<GameProps> = ({}) => {
     //since inititator is sent to false
     // this event is only called when the peer gets a offer
     peer.on('signal', (signal) => {
-      socket.emit(socketEvents.RETURN_SIGNAL, { signal, callerID });
+      socket.emit(socketEvents.RETURN_SIGNAL, { signal, callerID, name });
     });
 
     //accepting signal
@@ -151,22 +188,31 @@ export const Game: React.FC<GameProps> = ({}) => {
     peersRef.current = peersRef.current.filter(
       ({ peerID }) => peerID !== userID
     );
-    setPeers(peers.filter(({ peerID }) => peerID !== userID));
+    setPeers([...peersRef.current]);
   }
 
   return (
     <div className="container">
+      {!name && <NameModal setName={setName} />}
       <div className="game">
         <div className="spectators">
-          <video
-            muted
-            playsInline
-            autoPlay
-            ref={userVideo}
-            className="spectator"
-          />
+          <div className="spectator">
+            <h1>{name}</h1>
+            <video
+              muted
+              playsInline
+              autoPlay
+              ref={userVideo}
+              className="spectator-video"
+            />
+          </div>
           {peers.map((item, i) => {
-            return <Video key={i} peer={item.peer} />;
+            return (
+              <div key={i} className="spectator">
+                <h1>{item.name}</h1>
+                <Video peer={item.peer} />
+              </div>
+            );
           })}
         </div>
         <Switch>
@@ -176,11 +222,16 @@ export const Game: React.FC<GameProps> = ({}) => {
 
           <Route path={`${path}/chess`}>
             <ChessProvider>
-              <Chess />
+              <Chess setGameActive={setGameActive} />
             </ChessProvider>
           </Route>
         </Switch>
-        <SideCard />
+        <SideCard
+          connectedCount={peers.length}
+          roomId={roomId}
+          gameActive={gameActive}
+          setGameActive={setGameActive}
+        />
       </div>
     </div>
   );

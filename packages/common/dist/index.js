@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.socketEvents = exports.formatMessage = void 0;
+exports.GamesArray = exports.GameType = exports.socketEvents = exports.formatMessage = void 0;
 const moment_1 = __importDefault(require("moment"));
 exports.formatMessage = (username, message) => {
     return {
@@ -27,5 +27,15 @@ exports.socketEvents = {
     RECIEVE_RETURN_SIGNAL: 'recieve-return-signal',
     DISCONNECT: 'disconnect',
     USER_DISCONNECT: 'user-disconnect',
+    START_GAME: 'start-game',
+    BEGIN_CHESS: 'begin-chess',
+    NAME_CHANGE: 'name-change',
 };
+var GameType;
+(function (GameType) {
+    GameType[GameType["CHESS"] = 0] = "CHESS";
+})(GameType = exports.GameType || (exports.GameType = {}));
+exports.GamesArray = [
+    { enum: GameType.CHESS, name: 'chess' },
+];
 //# sourceMappingURL=index.js.map

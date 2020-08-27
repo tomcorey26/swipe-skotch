@@ -27,6 +27,22 @@ export const socketEvents = {
   RECIEVE_RETURN_SIGNAL: 'recieve-return-signal',
   DISCONNECT: 'disconnect',
   USER_DISCONNECT: 'user-disconnect',
+  START_GAME: 'start-game',
+  BEGIN_CHESS: 'begin-chess',
+  NAME_CHANGE: 'name-change',
 };
+
+export enum GameType {
+  CHESS,
+}
+
+export const GamesArray: { enum: GameType; name: string }[] = [
+  { enum: GameType.CHESS, name: 'chess' },
+];
+
+export interface ChessPlayer {
+  id: string;
+  color: 'b' | 'w';
+}
 
 export { userMessage };

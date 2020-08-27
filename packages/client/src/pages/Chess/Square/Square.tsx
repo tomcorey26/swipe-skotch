@@ -2,7 +2,7 @@ import React from 'react';
 import './Square.scss';
 import { useDrop } from 'react-dnd';
 import { SquareLabel } from '../../../Types';
-import { useChessDispatch } from '../../../context/chess';
+import { useChessDispatch, useChessState } from '../../../context/chess';
 import { useSocketIoContext } from '../../../context/socketIO';
 import { socketEvents } from '@skotch/common';
 
@@ -17,7 +17,8 @@ export const Square: React.FC<SquareProps> = ({
   position,
 }) => {
   const dispatch = useChessDispatch();
-  const { socket } = useSocketIoContext();
+  const { socket, yourID } = useSocketIoContext();
+  const { players, playerTurn } = useChessState();
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: 'piece',
@@ -37,6 +38,19 @@ export const Square: React.FC<SquareProps> = ({
     }),
   });
   //use css property background img for chess piece
+  if (!players || players[playerTurn].id !== yourID.current) {
+    return (
+      <div
+        className="square"
+        style={{
+          backgroundColor: color,
+        }}
+      >
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div
       className="square"
