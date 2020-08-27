@@ -19,6 +19,12 @@ export const Chess: React.FC<ChessProps> = ({ setGameActive }) => {
   usePieceSound();
 
   useEffect(() => {
+    if (isCheckmate) {
+      setGameActive(false);
+    }
+  }, [isCheckmate, setGameActive]);
+
+  useEffect(() => {
     socket.on(socketEvents.ENEMY_MOVE, (move: ChessMove) => {
       console.log('enemy move');
       dispatch({ type: 'move_piece', payload: move });

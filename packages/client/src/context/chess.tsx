@@ -39,7 +39,26 @@ const ChessDispatchContext = React.createContext<Dispatch | undefined>(
   undefined
 );
 
-const movePiece = (from: SquareLabel, to: SquareLabel, fen: string) => {
+const prestineChessGame = () => {
+  const chess: ChessInstance = new chessReq();
+  return {
+    board: addBoardPositions(chess.board()),
+    fen: chess.fen(),
+    isCheckmate: false,
+    isCheck: false,
+    error: '',
+    captured: false,
+    lastMove: null,
+    players: null,
+  };
+};
+
+const movePiece = (
+  from: SquareLabel,
+  to: SquareLabel,
+  fen: string,
+  turn: 0 | 1
+) => {
   const chess: ChessInstance = new chessReq(fen);
   // const moves = chess.moves({ square: from });
   const IsMoveLegal = chess.move({ from, to });
@@ -53,6 +72,7 @@ const movePiece = (from: SquareLabel, to: SquareLabel, fen: string) => {
   const move = IsMoveLegal ? IsMoveLegal : IsPromotion;
   return {
     lastMove: { from, to },
+    playerTurn: (turn === 0 ? 1 : 0) as 0 | 1,
     isCheckmate: chess.in_checkmate(),
     isCheck: chess.in_check(),
     board: addBoardPositions(chess.board()),
@@ -73,17 +93,18 @@ const chessReducer = (state: State, action: Action) => {
       const chessState = movePiece(
         action.payload.from,
         action.payload.to,
-        state.fen
+        state.fen,
+        state.playerTurn
       );
       return {
         ...state,
-        playerTurn: (state.playerTurn === 0 ? 1 : 0) as 0 | 1,
         ...chessState,
       };
     }
     case 'begin_game': {
       return {
         ...state,
+        ...prestineChessGame(),
         players: action.payload.players,
         playerColor: (action.payload.players[1].id === action.payload.socketId
           ? 'b'

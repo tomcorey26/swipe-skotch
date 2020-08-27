@@ -20,9 +20,12 @@ export declare const socketEvents: {
     NAME_CHANGE: string;
 };
 export declare enum GameType {
-    CHESS = 0,
-    CHAT = 1
+    CHESS = 0
 }
+export declare const GamesArray: {
+    enum: GameType;
+    name: string;
+}[];
 export interface ChessPlayer {
     id: string;
     color: 'b' | 'w';

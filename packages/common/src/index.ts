@@ -34,8 +34,11 @@ export const socketEvents = {
 
 export enum GameType {
   CHESS,
-  CHAT,
 }
+
+export const GamesArray: { enum: GameType; name: string }[] = [
+  { enum: GameType.CHESS, name: 'chess' },
+];
 
 export interface ChessPlayer {
   id: string;
