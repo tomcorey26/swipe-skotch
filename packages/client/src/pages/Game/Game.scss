@@ -13,6 +13,9 @@
   width: 200px;
   .spectator {
     width: 100%;
-    height: 25%;
+    .spectator-video {
+      width: 100%;
+      height: 25%;
+    }
   }
 }

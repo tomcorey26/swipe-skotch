@@ -29,6 +29,7 @@ exports.socketEvents = {
     USER_DISCONNECT: 'user-disconnect',
     START_GAME: 'start-game',
     BEGIN_CHESS: 'begin-chess',
+    NAME_CHANGE: 'name-change',
 };
 var GameType;
 (function (GameType) {

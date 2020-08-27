@@ -10,6 +10,7 @@ interface SignalData {
   userToSignal: string;
   signal: any;
   callerID: string;
+  name: string;
 }
 const MAX_LOBBY_CLIENTS = 4;
 export const initLobby = (socket: Socket, io: ioserver.Server) => {
@@ -43,6 +44,7 @@ export const initLobby = (socket: Socket, io: ioserver.Server) => {
     io.to(payload.userToSignal).emit(socketEvents.USER_JOINED, {
       signal: payload.signal,
       callerID: payload.callerID,
+      name: payload.name,
     });
   });
 
@@ -50,7 +52,11 @@ export const initLobby = (socket: Socket, io: ioserver.Server) => {
     io.to(payload.callerID).emit(socketEvents.RECIEVE_RETURN_SIGNAL, {
       signal: payload.signal,
       id: socket.id,
+      name: payload.name,
     });
+  });
+  socket.on(socketEvents.NAME_CHANGE, (roomId, name, userId) => {
+    socket.to(roomId).emit(socketEvents.NAME_CHANGE, name, userId);
   });
 
   socket.on(socketEvents.START_GAME, (gameType: GameType, roomId: string) => {

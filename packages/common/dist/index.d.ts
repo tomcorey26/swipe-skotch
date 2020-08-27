@@ -17,6 +17,7 @@ export declare const socketEvents: {
     USER_DISCONNECT: string;
     START_GAME: string;
     BEGIN_CHESS: string;
+    NAME_CHANGE: string;
 };
 export declare enum GameType {
     CHESS = 0,
