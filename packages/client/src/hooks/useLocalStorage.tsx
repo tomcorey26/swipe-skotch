@@ -1,17 +1,25 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 // Hook
 export function useLocalStorage<T>(
   key: string,
   initialValue: T
-): [T, (value: T | ((val: T) => T)) => void] {
+): [
+  T,
+  (value: T | ((val: T) => T)) => void,
+  React.MutableRefObject<T | undefined>
+] {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
+  const valRef = useRef<T>();
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       // Get from local storage by key
       const item = window.localStorage.getItem(key);
       // Parse stored json or if none return initialValue
+      if (item) {
+        valRef.current = JSON.parse(item);
+      }
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
       // If error also return initialValue
@@ -28,6 +36,7 @@ export function useLocalStorage<T>(
       const valueToStore =
         value instanceof Function ? value(storedValue) : value;
       // Save state
+      valRef.current = valueToStore;
       setStoredValue(valueToStore);
       // Save to local storage
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
@@ -37,5 +46,5 @@ export function useLocalStorage<T>(
     }
   };
 
-  return [storedValue, setValue];
+  return [storedValue, setValue, valRef];
 }

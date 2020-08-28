@@ -32,7 +32,7 @@ export const Game: React.FC<GameProps> = ({}) => {
   const userVideo = useRef<any>();
   const peersRef = useRef<Peer[]>([]);
   const streamRef = useRef<MediaStream>();
-  const [name, setName] = useLocalStorage(roomId, '');
+  const [name, setName, nameRef] = useLocalStorage(roomId, '');
   const [peers, setPeers] = useState<Peer[]>([]);
   const [gameActive, setGameActive] = useState<boolean>(false);
 
@@ -171,7 +171,11 @@ export const Game: React.FC<GameProps> = ({}) => {
     //since inititator is sent to false
     // this event is only called when the peer gets a offer
     peer.on('signal', (signal) => {
-      socket.emit(socketEvents.RETURN_SIGNAL, { signal, callerID, name });
+      socket.emit(socketEvents.RETURN_SIGNAL, {
+        signal,
+        callerID,
+        name: nameRef.current,
+      });
     });
 
     //accepting signal
