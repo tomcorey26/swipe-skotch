@@ -49,7 +49,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = ({}) => {
               classType = 'to-me';
             }
             return (
-              <li key={i} className={classType}>
+              <li key={i} className={classType + ' fade-in'}>
                 {msg.username}: {msg.text}
               </li>
             );
