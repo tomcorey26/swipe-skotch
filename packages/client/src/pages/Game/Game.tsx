@@ -26,13 +26,12 @@ interface Peer {
 
 export const Game: React.FC<GameProps> = ({}) => {
   let { path } = useRouteMatch();
-  const { socket, yourID } = useSocketIoContext();
+  const { socket, yourID, name, nameRef, setName } = useSocketIoContext();
   let { roomId } = useParams();
   const history = useHistory();
   const userVideo = useRef<any>();
   const peersRef = useRef<Peer[]>([]);
   const streamRef = useRef<MediaStream>();
-  const [name, setName, nameRef] = useLocalStorage(roomId, '');
   const [peers, setPeers] = useState<Peer[]>([]);
   const [gameActive, setGameActive] = useState<boolean>(false);
 
