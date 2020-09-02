@@ -8,11 +8,15 @@ const chessReq: any = require('chess.js');
 type Action =
   | { type: 'set_board'; payload: ChessBoard }
   | { type: 'set_checkmate' }
-  | { type: 'move_piece'; payload: { from: SquareLabel; to: SquareLabel } }
+  | {
+      type: 'move_piece';
+      payload: { from: SquareLabel; to: SquareLabel; setGlobalMessage?: any };
+    }
   | {
       type: 'begin_game';
       payload: { players: ChessPlayer[]; socketId: string };
-    };
+    }
+  | { type: 'clear_game' };
 
 type Dispatch = (action: Action) => void;
 
@@ -50,6 +54,7 @@ const prestineChessGame = () => {
     captured: false,
     lastMove: null,
     players: null,
+    playerTurn: 0 as 0,
   };
 };
 
@@ -83,6 +88,9 @@ const movePiece = (
 
 const chessReducer = (state: State, action: Action) => {
   switch (action.type) {
+    case 'clear_game': {
+      return { ...state, ...prestineChessGame() };
+    }
     case 'set_board': {
       return { ...state, board: action.payload };
     }
@@ -96,6 +104,12 @@ const chessReducer = (state: State, action: Action) => {
         state.fen,
         state.playerTurn
       );
+      if (chessState.error && action.payload.setGlobalMessage) {
+        action.payload.setGlobalMessage({
+          type: 'error',
+          msg: chessState.error,
+        });
+      }
       return {
         ...state,
         ...chessState,

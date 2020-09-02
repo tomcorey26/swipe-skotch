@@ -8,14 +8,14 @@ import {
   useHistory,
 } from 'react-router-dom';
 import { Chess } from '../Chess/Chess';
-import { ChessProvider } from '../../context/chess';
+import { ChessProvider, useChessDispatch } from '../../context/chess';
 import { useSocketIoContext } from '../../context/socketIO';
 import { socketEvents } from '@skotch/common';
 import { SideCard } from '../Chess/SideCard/SideCard';
 import Peer from 'simple-peer';
 import { Video } from '../../components/Video/Video';
 import { NameModal } from '../../components/NameModal/NameModal';
-import { useLocalStorage } from '../../hooks';
+import { useLocalStorage, GlobalTypes } from '../../hooks';
 
 interface GameProps {}
 interface Peer {
@@ -26,13 +26,19 @@ interface Peer {
 
 export const Game: React.FC<GameProps> = ({}) => {
   let { path } = useRouteMatch();
-  const { socket, yourID } = useSocketIoContext();
+  const {
+    socket,
+    yourID,
+    name,
+    nameRef,
+    setName,
+    setGlobalMessage,
+  } = useSocketIoContext();
   let { roomId } = useParams();
   const history = useHistory();
   const userVideo = useRef<any>();
   const peersRef = useRef<Peer[]>([]);
   const streamRef = useRef<MediaStream>();
-  const [name, setName] = useLocalStorage(roomId, '');
   const [peers, setPeers] = useState<Peer[]>([]);
   const [gameActive, setGameActive] = useState<boolean>(false);
 
@@ -124,7 +130,10 @@ export const Game: React.FC<GameProps> = ({}) => {
         });
 
         socket.on(socketEvents.USER_DISCONNECT, (userID: string) => {
+          //TODO if multiple players figure out which  one dc
+          setGlobalMessage({ msg: 'User Disconnected', type: GlobalTypes.bot });
           removePeer(userID);
+          setGameActive(false);
         });
       });
 
@@ -171,7 +180,11 @@ export const Game: React.FC<GameProps> = ({}) => {
     //since inititator is sent to false
     // this event is only called when the peer gets a offer
     peer.on('signal', (signal) => {
-      socket.emit(socketEvents.RETURN_SIGNAL, { signal, callerID, name });
+      socket.emit(socketEvents.RETURN_SIGNAL, {
+        signal,
+        callerID,
+        name: nameRef.current,
+      });
     });
 
     //accepting signal

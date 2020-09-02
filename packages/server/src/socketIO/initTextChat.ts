@@ -8,6 +8,6 @@ export const initTextChat = (socket: Socket, io: ioserver.Server) => {
   socket.on('message', (data) => {
     //socket: emits to the single client that is connecting
     //io: broadcasts to everybody
-    io.in(data.roomId).emit('message', formatMessage('tom', data.input));
+    io.in(data.roomId).emit('message', formatMessage(data.name, data.input));
   });
 };

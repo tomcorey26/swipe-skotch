@@ -45,6 +45,11 @@ export const Chess: React.FC<ChessProps> = ({ setGameActive }) => {
         payload: { players: data.players, socketId: yourID.current },
       });
     });
+
+    socket.on(socketEvents.USER_DISCONNECT, (userID: string) => {
+      //TODO if multiple players figure out which  one dc
+      dispatch({ type: 'clear_game' });
+    });
   }, []);
 
   return (

@@ -4,10 +4,9 @@
   "private": true,
   "dependencies": {
     "@skotch/common": "1.0.0",
-    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/user-event": "^7.1.2",
     "@types/chess.js": "^0.10.1",
-    "@types/jest": "^24.0.0",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-beautiful-dnd": "^13.0.0",
@@ -53,7 +52,7 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/react": "^9.5.0",
+    "@testing-library/react": "^10.4.9",
     "@types/react-dnd": "^3.0.2",
     "@types/react-dnd-html5-backend": "^3.0.2",
     "react-test-renderer": "^16.13.1"
