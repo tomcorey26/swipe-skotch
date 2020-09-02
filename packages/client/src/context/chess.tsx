@@ -8,7 +8,10 @@ const chessReq: any = require('chess.js');
 type Action =
   | { type: 'set_board'; payload: ChessBoard }
   | { type: 'set_checkmate' }
-  | { type: 'move_piece'; payload: { from: SquareLabel; to: SquareLabel } }
+  | {
+      type: 'move_piece';
+      payload: { from: SquareLabel; to: SquareLabel; setGlobalMessage?: any };
+    }
   | {
       type: 'begin_game';
       payload: { players: ChessPlayer[]; socketId: string };
@@ -96,6 +99,12 @@ const chessReducer = (state: State, action: Action) => {
         state.fen,
         state.playerTurn
       );
+      if (chessState.error && action.payload.setGlobalMessage) {
+        action.payload.setGlobalMessage({
+          type: 'error',
+          msg: chessState.error,
+        });
+      }
       return {
         ...state,
         ...chessState,

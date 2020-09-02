@@ -1,9 +1,7 @@
 import React from 'react';
 import './Piece.scss';
-import { PieceType } from 'chess.js';
 import { GamePiece } from '../../../Types';
 import { useDrag, DragLayerMonitor } from 'react-dnd';
-import { pieceToUnicode } from '../../../utils';
 const whiteKing = require('../../../assets/Chess_klt45.svg');
 const whiteQueen = require('../../../assets/Chess_qlt45.svg');
 const whiteRook = require('../../../assets/Chess_rlt45.svg');

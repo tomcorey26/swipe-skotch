@@ -13,6 +13,14 @@ import { useSocketIoContext } from '../context/socketIO';
 
 const socket = socketIOClient(process.env.REACT_APP_SERVER_URL as string);
 
+export enum GlobalTypes {
+  error = 'error',
+  bot = 'bot',
+}
+export interface GlobalMessage {
+  type: GlobalTypes;
+  msg: string;
+}
 export interface SocketProps {
   socket: SocketIOClient.Socket;
   yourID: MutableRefObject<string>;
@@ -20,12 +28,17 @@ export interface SocketProps {
   name: string;
   setName: any;
   nameRef: MutableRefObject<string | undefined>;
+  setGlobalMessage: React.Dispatch<React.SetStateAction<GlobalMessage | null>>;
+  globalMessage: GlobalMessage | null;
 }
 export const useSocketIO = (): SocketProps => {
   let { roomId } = useParams();
   const yourID = useRef<string>('');
   const [users, setUsers] = useState({});
   const [name, setName, nameRef] = useLocalStorage(roomId, '');
+  const [globalMessage, setGlobalMessage] = useState<GlobalMessage | null>(
+    null
+  );
 
   useEffect(() => {
     socket.on('allUsers', (data: any) => {
@@ -37,14 +50,23 @@ export const useSocketIO = (): SocketProps => {
     });
   }, []);
 
-  return { socket, yourID, users, name, setName, nameRef };
+  return {
+    socket,
+    yourID,
+    users,
+    name,
+    setName,
+    nameRef,
+    setGlobalMessage,
+    globalMessage,
+  };
 };
 
 export const useSocketTextChat = () => {
   let { roomId } = useParams();
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<userMessage[]>([]);
-  const { socket, nameRef } = useSocketIoContext();
+  const { socket, nameRef, globalMessage } = useSocketIoContext();
 
   const emitMessage = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -57,6 +79,19 @@ export const useSocketTextChat = () => {
       setMessages((m) => [...m, data]);
     });
   }, [socket]);
+
+  useEffect(() => {
+    if (globalMessage) {
+      setMessages((m) => [
+        ...m,
+        {
+          dateCreated: 'now',
+          text: globalMessage.msg,
+          username: globalMessage.type,
+        },
+      ]);
+    }
+  }, [globalMessage]);
 
   return { input, setInput, emitMessage, messages, setMessages };
 };
