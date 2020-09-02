@@ -15,7 +15,8 @@ type Action =
   | {
       type: 'begin_game';
       payload: { players: ChessPlayer[]; socketId: string };
-    };
+    }
+  | { type: 'clear_game' };
 
 type Dispatch = (action: Action) => void;
 
@@ -53,6 +54,7 @@ const prestineChessGame = () => {
     captured: false,
     lastMove: null,
     players: null,
+    playerTurn: 0 as 0,
   };
 };
 
@@ -86,6 +88,9 @@ const movePiece = (
 
 const chessReducer = (state: State, action: Action) => {
   switch (action.type) {
+    case 'clear_game': {
+      return { ...state, ...prestineChessGame() };
+    }
     case 'set_board': {
       return { ...state, board: action.payload };
     }

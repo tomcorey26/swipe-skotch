@@ -14,8 +14,8 @@ import { useSocketIoContext } from '../context/socketIO';
 const socket = socketIOClient(process.env.REACT_APP_SERVER_URL as string);
 
 export enum GlobalTypes {
-  error = 'error',
-  bot = 'bot',
+  error = 'Error',
+  bot = 'Bot',
 }
 export interface GlobalMessage {
   type: GlobalTypes;

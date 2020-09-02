@@ -12,7 +12,7 @@ interface SignalData {
   callerID: string;
   name: string;
 }
-const MAX_LOBBY_CLIENTS = 4;
+const MAX_LOBBY_CLIENTS = 2;
 export const initLobby = (socket: Socket, io: ioserver.Server) => {
   socket.on(socketEvents.JOIN_ROOM, (roomId) => {
     let connectedClients = 1;
@@ -40,7 +40,6 @@ export const initLobby = (socket: Socket, io: ioserver.Server) => {
   });
 
   socket.on(socketEvents.SEND_SIGNAL, (payload: SignalData) => {
-    console.log('sent signal');
     io.to(payload.userToSignal).emit(socketEvents.USER_JOINED, {
       signal: payload.signal,
       callerID: payload.callerID,

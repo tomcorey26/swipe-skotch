@@ -8,14 +8,14 @@ import {
   useHistory,
 } from 'react-router-dom';
 import { Chess } from '../Chess/Chess';
-import { ChessProvider } from '../../context/chess';
+import { ChessProvider, useChessDispatch } from '../../context/chess';
 import { useSocketIoContext } from '../../context/socketIO';
 import { socketEvents } from '@skotch/common';
 import { SideCard } from '../Chess/SideCard/SideCard';
 import Peer from 'simple-peer';
 import { Video } from '../../components/Video/Video';
 import { NameModal } from '../../components/NameModal/NameModal';
-import { useLocalStorage } from '../../hooks';
+import { useLocalStorage, GlobalTypes } from '../../hooks';
 
 interface GameProps {}
 interface Peer {
@@ -26,7 +26,14 @@ interface Peer {
 
 export const Game: React.FC<GameProps> = ({}) => {
   let { path } = useRouteMatch();
-  const { socket, yourID, name, nameRef, setName } = useSocketIoContext();
+  const {
+    socket,
+    yourID,
+    name,
+    nameRef,
+    setName,
+    setGlobalMessage,
+  } = useSocketIoContext();
   let { roomId } = useParams();
   const history = useHistory();
   const userVideo = useRef<any>();
@@ -123,7 +130,10 @@ export const Game: React.FC<GameProps> = ({}) => {
         });
 
         socket.on(socketEvents.USER_DISCONNECT, (userID: string) => {
+          //TODO if multiple players figure out which  one dc
+          setGlobalMessage({ msg: 'User Disconnected', type: GlobalTypes.bot });
           removePeer(userID);
+          setGameActive(false);
         });
       });
 
