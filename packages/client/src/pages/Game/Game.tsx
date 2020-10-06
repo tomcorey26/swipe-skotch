@@ -34,7 +34,7 @@ export const Game: React.FC<GameProps> = ({}) => {
     setName,
     setGlobalMessage,
   } = useSocketIoContext();
-  let { roomId } = useParams();
+  let { roomId } = useParams<{ roomId: string }>();
   const history = useHistory();
   const userVideo = useRef<any>();
   const peersRef = useRef<Peer[]>([]);
@@ -227,6 +227,15 @@ export const Game: React.FC<GameProps> = ({}) => {
               </div>
             );
           })}
+          <div className="spectator">
+            <a href="https://www.buymeacoffee.com/tomcorey" target="_blank">
+              <img
+                src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png"
+                alt="Buy Me A Coffee"
+                style={{ height: 60, width: 227 }}
+              />
+            </a>
+          </div>
         </div>
         <Switch>
           <Route exact path={path}>
