@@ -32,7 +32,7 @@ export const useTracking = (
 
       let path = location.pathname;
       path.toLowerCase();
-      path = '/' + path.split('/')[0];
+      path = '/' + path.split('/')[1];
 
       window.gtag('config', trackingId, { page_path: path });
     });
