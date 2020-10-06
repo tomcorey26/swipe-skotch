@@ -34,7 +34,7 @@ export const useTracking = (
       path.toLowerCase();
       path = '/' + path.split('/')[0];
 
-      window.gtag('config', trackingId, { page_path: location.pathname });
+      window.gtag('config', trackingId, { page_path: path });
     });
 
     return unlisten;
