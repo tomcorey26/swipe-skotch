@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Home } from './pages/Home/Home';
 import { SocketIoProvider } from './context/socketIO';
 import { Game } from './pages/Game/Game';
+import { useTracking } from './hooks';
 
 const LoginPage = () => {
   return (
@@ -34,6 +35,7 @@ const LoginPage = () => {
 };
 
 function App() {
+  useTracking();
   return (
     <div className="app">
       {/* <Navbar /> */}

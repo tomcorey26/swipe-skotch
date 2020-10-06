@@ -8,14 +8,14 @@ import {
   useHistory,
 } from 'react-router-dom';
 import { Chess } from '../Chess/Chess';
-import { ChessProvider, useChessDispatch } from '../../context/chess';
+import { ChessProvider } from '../../context/chess';
 import { useSocketIoContext } from '../../context/socketIO';
 import { socketEvents } from '@skotch/common';
 import { SideCard } from '../Chess/SideCard/SideCard';
 import Peer from 'simple-peer';
 import { Video } from '../../components/Video/Video';
 import { NameModal } from '../../components/NameModal/NameModal';
-import { useLocalStorage, GlobalTypes } from '../../hooks';
+import { GlobalTypes } from '../../hooks';
 
 interface GameProps {}
 interface Peer {
