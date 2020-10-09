@@ -45,7 +45,7 @@ export const ChatMessages: React.FC<ChatMessagesProps> = () => {
               classType = 'from-me';
             } else if (msg.username === 'Bot') {
               classType = 'from-bot';
-            } else if (msg.username === 'error') {
+            } else if (msg.username === 'Error') {
               classType = 'from-error';
             } else {
               classType = 'to-me';

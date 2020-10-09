@@ -17,7 +17,7 @@ export const Square: React.FC<SquareProps> = ({
   position,
 }) => {
   const dispatch = useChessDispatch();
-  const { socket, yourID, setGlobalMessage } = useSocketIoContext();
+  const { socket, yourID } = useSocketIoContext();
   const { players, playerTurn } = useChessState();
 
   const [{ isOver, canDrop }, drop] = useDrop({
@@ -27,7 +27,7 @@ export const Square: React.FC<SquareProps> = ({
       const to = position;
       dispatch({
         type: 'move_piece',
-        payload: { from, to, setGlobalMessage },
+        payload: { from, to },
       });
       socket.emit(socketEvents.MY_MOVE, { from, to });
     },
