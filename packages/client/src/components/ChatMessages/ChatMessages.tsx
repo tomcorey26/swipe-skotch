@@ -6,7 +6,7 @@ import { socketEvents } from '@skotch/common';
 
 interface ChatMessagesProps {}
 
-export const ChatMessages: React.FC<ChatMessagesProps> = ({}) => {
+export const ChatMessages: React.FC<ChatMessagesProps> = () => {
   const { name, socket } = useSocketIoContext();
   const {
     input,

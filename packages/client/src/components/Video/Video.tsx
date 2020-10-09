@@ -14,7 +14,7 @@ export const Video: React.FC<VideoProps> = ({ peer }) => {
         ref.current.srcObject = stream;
       }
     });
-  }, []);
+  }, [peer]);
 
   return <video className="spectator" playsInline autoPlay ref={ref} />;
 };

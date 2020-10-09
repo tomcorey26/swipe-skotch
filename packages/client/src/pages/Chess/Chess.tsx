@@ -28,11 +28,10 @@ export const Chess: React.FC<ChessProps> = ({ setGameActive }) => {
         setWinner('White');
       }
     }
-  }, [isCheckmate, setGameActive]);
+  }, [isCheckmate, setGameActive, playerTurn]);
 
   useEffect(() => {
     socket.on(socketEvents.ENEMY_MOVE, (move: ChessMove) => {
-      console.log('enemy move');
       dispatch({ type: 'move_piece', payload: move });
     });
   }, [socket, dispatch]);
@@ -50,7 +49,7 @@ export const Chess: React.FC<ChessProps> = ({ setGameActive }) => {
       //TODO if multiple players figure out which  one dc
       dispatch({ type: 'clear_game' });
     });
-  }, []);
+  }, [socket, dispatch, yourID, setGameActive]);
 
   return (
     <div className="chess">

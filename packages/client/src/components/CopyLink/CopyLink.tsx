@@ -4,7 +4,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 interface CopyLinkProps {}
 
-export const CopyLink: React.FC<CopyLinkProps> = ({}) => {
+export const CopyLink: React.FC<CopyLinkProps> = () => {
   const [copied, setCopied] = useState(false);
   const [value] = useState(() => window.location.href);
   return (

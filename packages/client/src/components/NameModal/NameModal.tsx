@@ -1,9 +1,4 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useState,
-  SyntheticEvent,
-} from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import './NameModal.scss';
 
 interface NameModalProps {
@@ -13,7 +8,7 @@ interface NameModalProps {
 export const NameModal: React.FC<NameModalProps> = ({ setName }) => {
   const [value, setValue] = useState<string>('');
 
-  const onSubmit = (e: SyntheticEvent) => {
+  const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setName(value);
   };
