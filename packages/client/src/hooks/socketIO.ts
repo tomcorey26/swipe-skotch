@@ -32,7 +32,7 @@ export interface SocketProps {
   globalMessage: GlobalMessage | null;
 }
 export const useSocketIO = (): SocketProps => {
-  let { roomId } = useParams();
+  let { roomId } = useParams<{ roomId: string }>();
   const yourID = useRef<string>('');
   const [users, setUsers] = useState({});
   const [name, setName, nameRef] = useLocalStorage(roomId, '');
@@ -63,7 +63,7 @@ export const useSocketIO = (): SocketProps => {
 };
 
 export const useSocketTextChat = () => {
-  let { roomId } = useParams();
+  let { roomId } = useParams<{ roomId: string }>();
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<userMessage[]>([]);
   const { socket, nameRef, globalMessage } = useSocketIoContext();
