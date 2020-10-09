@@ -9,7 +9,7 @@ export const CopyLink: React.FC<CopyLinkProps> = () => {
   const [value] = useState(() => window.location.href);
   return (
     <div>
-      <h1>Send this link to your Friends!</h1>
+      <h1>Send this link to your friend!</h1>
       <div className="copy-link">
         <input type="text" className="link-text" readOnly value={value} />
         <CopyToClipboard text={value} onCopy={() => setCopied(true)}>

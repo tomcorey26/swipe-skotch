@@ -60,7 +60,7 @@ export const Game: React.FC<GameProps> = () => {
             userToSignal,
             callerID,
             signal,
-            name,
+            name: nameRef.current,
           });
           signalCount++;
         }
@@ -68,7 +68,7 @@ export const Game: React.FC<GameProps> = () => {
 
       return peer;
     },
-    [name, socket]
+    [nameRef, socket]
   );
 
   const addPeer = useCallback(

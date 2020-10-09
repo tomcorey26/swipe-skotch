@@ -37,7 +37,6 @@ function getRoomId() {
   return path.split('/')[2];
 }
 export const useSocketIO = (): SocketProps => {
-  let { roomId } = useParams<{ roomId: string }>();
   const yourID = useRef<string>('');
   const [users, setUsers] = useState({});
   const [name, setName, nameRef] = useLocalStorage(getRoomId(), '');
