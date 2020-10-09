@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './Game.scss';
 import {
   useRouteMatch,
@@ -24,7 +24,7 @@ interface Peer {
   name: string;
 }
 
-export const Game: React.FC<GameProps> = ({}) => {
+export const Game: React.FC<GameProps> = () => {
   let { path } = useRouteMatch();
   const {
     socket,
@@ -42,6 +42,61 @@ export const Game: React.FC<GameProps> = ({}) => {
   const [peers, setPeers] = useState<Peer[]>([]);
   const [gameActive, setGameActive] = useState<boolean>(false);
 
+  const createPeer = useCallback(
+    (userToSignal: string, callerID: string, stream: MediaStream) => {
+      const peer = new Peer({
+        initiator: true,
+        trickle: false,
+        stream,
+      });
+
+      //after peer is constructed it emits this signal event
+      // after handshake is accepted it emits this event again
+      // make sure it only fires once to prevent infinite loop
+      let signalCount = 0;
+      peer.on('signal', (signal) => {
+        if (!signalCount) {
+          socket.emit(socketEvents.SEND_SIGNAL, {
+            userToSignal,
+            callerID,
+            signal,
+            name: nameRef.current,
+          });
+          signalCount++;
+        }
+      });
+
+      return peer;
+    },
+    [nameRef, socket]
+  );
+
+  const addPeer = useCallback(
+    (incomingSignal: any, callerID: string, stream: MediaStream) => {
+      const peer = new Peer({
+        initiator: false,
+        trickle: false,
+        stream,
+      });
+
+      //since inititator is sent to false
+      // this event is only called when the peer gets a offer
+      peer.on('signal', (signal) => {
+        socket.emit(socketEvents.RETURN_SIGNAL, {
+          signal,
+          callerID,
+          name: nameRef.current,
+        });
+      });
+
+      //accepting signal
+      //triggering signal handler above
+      peer.signal(incomingSignal);
+      return peer;
+    },
+    [nameRef, socket]
+  );
+
   useEffect(() => {
     socket.emit(socketEvents.NAME_CHANGE, roomId, name, yourID.current);
   }, [name, socket, roomId, yourID]);
@@ -55,7 +110,6 @@ export const Game: React.FC<GameProps> = ({}) => {
     });
 
     socket.on(socketEvents.NAME_CHANGE, (name: string, userId: string) => {
-      console.log('change', name, userId);
       setPeers((users) =>
         users.map((u) => {
           if (u.peerID === userId) {
@@ -138,60 +192,7 @@ export const Game: React.FC<GameProps> = ({}) => {
       });
 
     return () => {};
-  }, []);
-
-  function createPeer(
-    userToSignal: string,
-    callerID: string,
-    stream: MediaStream
-  ) {
-    const peer = new Peer({
-      initiator: true,
-      trickle: false,
-      stream,
-    });
-
-    //after peer is constructed it emits this signal event
-    // after handshake is accepted it emits this event again
-    // make sure it only fires once to prevent infinite loop
-    let signalCount = 0;
-    peer.on('signal', (signal) => {
-      if (!signalCount) {
-        socket.emit(socketEvents.SEND_SIGNAL, {
-          userToSignal,
-          callerID,
-          signal,
-          name,
-        });
-        signalCount++;
-      }
-    });
-
-    return peer;
-  }
-
-  function addPeer(incomingSignal: any, callerID: string, stream: MediaStream) {
-    const peer = new Peer({
-      initiator: false,
-      trickle: false,
-      stream,
-    });
-
-    //since inititator is sent to false
-    // this event is only called when the peer gets a offer
-    peer.on('signal', (signal) => {
-      socket.emit(socketEvents.RETURN_SIGNAL, {
-        signal,
-        callerID,
-        name: nameRef.current,
-      });
-    });
-
-    //accepting signal
-    //triggering signal handler above
-    peer.signal(incomingSignal);
-    return peer;
-  }
+  }, [addPeer, createPeer, roomId, setGlobalMessage, socket]);
 
   function removePeer(userID: string) {
     const found = peersRef.current.find(({ peerID }) => peerID === userID);
@@ -228,7 +229,11 @@ export const Game: React.FC<GameProps> = ({}) => {
             );
           })}
           <div className="spectator">
-            <a href="https://www.buymeacoffee.com/tomcorey" target="_blank">
+            <a
+              href="https://www.buymeacoffee.com/tomcorey"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img
                 src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png"
                 alt="Buy Me A Coffee"

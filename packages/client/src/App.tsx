@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { Home } from './pages/Home/Home';
 import { SocketIoProvider } from './context/socketIO';
 import { Game } from './pages/Game/Game';

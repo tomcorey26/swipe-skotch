@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface HeaderProps {}
 
-export const Header: React.FC<HeaderProps> = ({}) => {
+export const Header: React.FC<HeaderProps> = () => {
   const router = useHistory();
   return (
     <div className="header">

@@ -4,7 +4,7 @@ import { Header } from '../../components/Header/Header';
 
 interface HomeProps {}
 
-export const Home: React.FC<HomeProps> = ({}) => {
+export const Home: React.FC<HomeProps> = () => {
   return (
     <div>
       <Header />

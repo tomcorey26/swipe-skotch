@@ -16,7 +16,8 @@ type Action =
       type: 'begin_game';
       payload: { players: ChessPlayer[]; socketId: string };
     }
-  | { type: 'clear_game' };
+  | { type: 'clear_game' }
+  | { type: 'clear_error' };
 
 type Dispatch = (action: Action) => void;
 
@@ -104,12 +105,6 @@ const chessReducer = (state: State, action: Action) => {
         state.fen,
         state.playerTurn
       );
-      if (chessState.error && action.payload.setGlobalMessage) {
-        action.payload.setGlobalMessage({
-          type: 'error',
-          msg: chessState.error,
-        });
-      }
       return {
         ...state,
         ...chessState,
@@ -123,6 +118,12 @@ const chessReducer = (state: State, action: Action) => {
         playerColor: (action.payload.players[1].id === action.payload.socketId
           ? 'b'
           : 'w') as 'b' | 'w',
+      };
+    }
+    case 'clear_error': {
+      return {
+        ...state,
+        error: '',
       };
     }
     default: {

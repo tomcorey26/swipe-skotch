@@ -10,7 +10,6 @@ export const initVideoChat = (socket: Socket, io: ioserver.Server) => {
   });
 
   socket.on('acceptCall', (data) => {
-    console.log('call accepted server');
     io.to(data.to).emit('callAccepted', data.signal);
   });
 };

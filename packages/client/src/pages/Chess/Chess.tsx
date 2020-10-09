@@ -4,7 +4,7 @@ import { Board } from './Board/Board';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useChessState, useChessDispatch } from '../../context/chess';
-import { usePieceSound } from '../../hooks';
+import { GlobalTypes, usePieceSound } from '../../hooks';
 import { useSocketIoContext } from '../../context/socketIO';
 import { socketEvents, ChessPlayer } from '@skotch/common';
 import { ChessMove } from '@skotch/common/dist/Types';
@@ -13,11 +13,24 @@ interface ChessProps {
   setGameActive: Dispatch<SetStateAction<boolean>>;
 }
 export const Chess: React.FC<ChessProps> = ({ setGameActive }) => {
-  const { board, isCheckmate, playerColor, playerTurn } = useChessState();
+  const {
+    board,
+    isCheckmate,
+    playerColor,
+    playerTurn,
+    error,
+  } = useChessState();
   const dispatch = useChessDispatch();
-  const { socket, yourID } = useSocketIoContext();
+  const { socket, yourID, setGlobalMessage } = useSocketIoContext();
   const [winner, setWinner] = useState<null | 'White' | 'Black'>(null);
   usePieceSound();
+
+  useEffect(() => {
+    if (error) {
+      setGlobalMessage({ type: GlobalTypes.error, msg: error });
+    }
+    dispatch({ type: 'clear_error' });
+  }, [error, setGlobalMessage, dispatch]);
 
   useEffect(() => {
     if (isCheckmate) {
@@ -28,11 +41,10 @@ export const Chess: React.FC<ChessProps> = ({ setGameActive }) => {
         setWinner('White');
       }
     }
-  }, [isCheckmate, setGameActive]);
+  }, [isCheckmate, setGameActive, playerTurn]);
 
   useEffect(() => {
     socket.on(socketEvents.ENEMY_MOVE, (move: ChessMove) => {
-      console.log('enemy move');
       dispatch({ type: 'move_piece', payload: move });
     });
   }, [socket, dispatch]);
@@ -50,7 +62,7 @@ export const Chess: React.FC<ChessProps> = ({ setGameActive }) => {
       //TODO if multiple players figure out which  one dc
       dispatch({ type: 'clear_game' });
     });
-  }, []);
+  }, [socket, dispatch, yourID, setGameActive]);
 
   return (
     <div className="chess">

@@ -31,11 +31,15 @@ export interface SocketProps {
   setGlobalMessage: React.Dispatch<React.SetStateAction<GlobalMessage | null>>;
   globalMessage: GlobalMessage | null;
 }
+
+function getRoomId() {
+  let path = window.location.pathname;
+  return path.split('/')[2];
+}
 export const useSocketIO = (): SocketProps => {
-  let { roomId } = useParams<{ roomId: string }>();
   const yourID = useRef<string>('');
   const [users, setUsers] = useState({});
-  const [name, setName, nameRef] = useLocalStorage(roomId, '');
+  const [name, setName, nameRef] = useLocalStorage(getRoomId(), '');
   const [globalMessage, setGlobalMessage] = useState<GlobalMessage | null>(
     null
   );

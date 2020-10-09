@@ -14,14 +14,12 @@ declare global {
 export const useTracking = (
   trackingId: string | undefined = process.env.REACT_APP_GA_MEASUREMENT_ID
 ) => {
-  console.log(trackingId, 'in use tracking ');
   const { listen } = useHistory();
 
   useEffect(() => {
     //This function returns a function that allows us
     // to un listen to the router change
     const unlisten = listen((location) => {
-      console.log(trackingId, 'listen called');
       if (!window.gtag) return;
       if (!trackingId) {
         console.log(

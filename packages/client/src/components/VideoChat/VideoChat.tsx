@@ -68,7 +68,6 @@ export const VideoChat: React.FC<VideoChatProps> = ({ children }) => {
     });
 
     socket.on('callAccepted', (signal: any) => {
-      console.log('callaccepted');
       setCallAccepted(true);
       peer.signal(signal);
     });

@@ -4,12 +4,12 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 interface CopyLinkProps {}
 
-export const CopyLink: React.FC<CopyLinkProps> = ({}) => {
+export const CopyLink: React.FC<CopyLinkProps> = () => {
   const [copied, setCopied] = useState(false);
   const [value] = useState(() => window.location.href);
   return (
     <div>
-      <h1>Send this link to your Friends!</h1>
+      <h1>Send this link to your friend!</h1>
       <div className="copy-link">
         <input type="text" className="link-text" readOnly value={value} />
         <CopyToClipboard text={value} onCopy={() => setCopied(true)}>
