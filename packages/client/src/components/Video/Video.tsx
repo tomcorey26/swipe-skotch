@@ -16,5 +16,5 @@ export const Video: React.FC<VideoProps> = ({ peer }) => {
     });
   }, [peer]);
 
-  return <video className="spectator" playsInline autoPlay ref={ref} />;
+  return <video className="spectator-video" playsInline autoPlay ref={ref} />;
 };
