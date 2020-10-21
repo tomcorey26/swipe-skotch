@@ -12,10 +12,76 @@
   height: 100vh;
   width: 200px;
   .spectator {
+    position: relative;
     width: 100%;
     .spectator-video {
+      box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
+      border-radius: 16px;
+      object-fit: cover;
       width: 100%;
       height: 25%;
+    }
+  }
+}
+
+@media (max-width: 1280px) {
+  .chess-section {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 50vw;
+  }
+  .spectators {
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .spectator {
+      text-align: center;
+      height: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .name-bar {
+        position: absolute;
+        bottom: 13px;
+        background: white;
+        width: 90%;
+        height: 60px;
+        line-height: 50px;
+        border-radius: 0 0 16px 16px;
+      }
+
+      .spectator-video {
+        width: 90%;
+        height: 90%;
+      }
+    }
+  }
+  .game {
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 920px) {
+  .game {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .spectators {
+    width: 100vw;
+    height: 30vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    .spectator {
+      text-align: center;
+      width: 100%;
+      height: 100%;
     }
   }
 }

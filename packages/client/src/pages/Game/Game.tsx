@@ -10,12 +10,14 @@ import {
 import { Chess } from '../Chess/Chess';
 import { ChessProvider } from '../../context/chess';
 import { useSocketIoContext } from '../../context/socketIO';
-import { socketEvents } from '@skotch/common';
+import { GameType, socketEvents } from '@skotch/common';
 import { SideCard } from '../Chess/SideCard/SideCard';
 import Peer from 'simple-peer';
 import { Video } from '../../components/Video/Video';
 import { NameModal } from '../../components/NameModal/NameModal';
 import { GlobalTypes } from '../../hooks';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
+import { CopyLink } from '../../components/CopyLink/CopyLink';
 
 interface GameProps {}
 interface Peer {
@@ -41,6 +43,7 @@ export const Game: React.FC<GameProps> = () => {
   const streamRef = useRef<MediaStream>();
   const [peers, setPeers] = useState<Peer[]>([]);
   const [gameActive, setGameActive] = useState<boolean>(false);
+  const { width } = useWindowDimensions();
 
   const createPeer = useCallback(
     (userToSignal: string, callerID: string, stream: MediaStream) => {
@@ -211,7 +214,9 @@ export const Game: React.FC<GameProps> = () => {
       <div className="game">
         <div className="spectators">
           <div className="spectator">
-            <h1>{name}</h1>
+            <div className="name-bar">
+              <h1>{name}</h1>
+            </div>
             <video
               muted
               playsInline
@@ -223,12 +228,14 @@ export const Game: React.FC<GameProps> = () => {
           {peers.map((item, i) => {
             return (
               <div key={i} className="spectator">
-                <h1>{item.name}</h1>
+                <div className="name-bar">
+                  <h1>{item.name}</h1>
+                </div>
                 <Video peer={item.peer} />
               </div>
             );
           })}
-          <div className="spectator">
+          {/* <div className="spectator">
             <a
               href="https://www.buymeacoffee.com/tomcorey"
               target="_blank"
@@ -240,25 +247,42 @@ export const Game: React.FC<GameProps> = () => {
                 style={{ height: 60, width: 227 }}
               />
             </a>
-          </div>
+          </div> */}
         </div>
         <Switch>
           <Route exact path={path}>
             <h3>choose a game</h3>
           </Route>
 
-          <Route path={`${path}/chess`}>
-            <ChessProvider>
-              <Chess setGameActive={setGameActive} />
-            </ChessProvider>
-          </Route>
+          <div className="chess-section">
+            {width < 1280 && peers.length === 0 && <CopyLink />}
+            {width < 1280 && peers.length >= 1 && !gameActive && (
+              <div
+                className="btn-primary"
+                onClick={() => {
+                  socket.emit(socketEvents.START_GAME, GameType.CHESS, roomId);
+                  setGameActive(true);
+                }}
+                style={{ marginBottom: 10 }}
+              >
+                New Game
+              </div>
+            )}
+            <Route path={`${path}/chess`}>
+              <ChessProvider>
+                <Chess setGameActive={setGameActive} />
+              </ChessProvider>
+            </Route>
+          </div>
         </Switch>
-        <SideCard
-          connectedCount={peers.length}
-          roomId={roomId}
-          gameActive={gameActive}
-          setGameActive={setGameActive}
-        />
+        {width > 1280 && (
+          <SideCard
+            connectedCount={peers.length}
+            roomId={roomId}
+            gameActive={gameActive}
+            setGameActive={setGameActive}
+          />
+        )}
       </div>
     </div>
   );

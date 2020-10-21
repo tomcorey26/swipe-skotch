@@ -6,6 +6,7 @@ import { socketEvents } from '@skotch/common';
 
 interface ChatMessagesProps {}
 
+let renderCount = 0;
 export const ChatMessages: React.FC<ChatMessagesProps> = () => {
   const { name, socket } = useSocketIoContext();
   const {
@@ -22,9 +23,17 @@ export const ChatMessages: React.FC<ChatMessagesProps> = () => {
     }
   };
 
+  if (renderCount < 6) {
+    renderCount++;
+  }
+
   useEffect(() => {
-    scrollToBottom();
-  });
+    // ghetto ass way of making sure the effect doesnt happen
+    // when you first join the lobby
+    if (renderCount > 5) {
+      scrollToBottom();
+    }
+  }, [messages]);
 
   useEffect(() => {
     socket.on(socketEvents.BEGIN_CHESS, () => {

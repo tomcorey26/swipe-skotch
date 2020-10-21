@@ -1,6 +1,7 @@
 // must be divisible by 8 for even board
 $size: 480px;
 .board {
+  box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
   width: $size;
   height: $size;
   background-color: blue;
@@ -14,4 +15,15 @@ $size: 480px;
   justify-content: center;
   align-items: center;
   font-size: 40;
+}
+$mobile-size: calc(100vw);
+@media (max-width: 920px) {
+  .board {
+    width: $mobile-size;
+    height: $mobile-size;
+    background-color: blue;
+    display: grid;
+    grid-template-columns: repeat(8, calc(#{$mobile-size} / 8));
+    grid-template-rows: repeat(8, calc(#{$mobile-size} / 8));
+  }
 }

@@ -44,3 +44,10 @@
     opacity: 1;
   }
 }
+
+@media (max-width: 760px) {
+  .name-modal {
+    width: 100vw;
+    left: 0;
+  }
+}
